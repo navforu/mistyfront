@@ -1,0 +1,24 @@
+{
+  "images": [
+    {
+      "src": "images/1.jpg",
+      "alt": "Photo 1",
+      "caption": "Photo 1"
+    },
+    {
+      "src": "images/2.jpg",
+      "alt": "Photo 2",
+      "caption": "Photo 2"
+    },
+    {
+      "src": "images/3.jpg",
+      "alt": "Photo 3",
+      "caption": "Photo 3"
+    },
+    {
+      "src": "images/4.jpg",
+      "alt": "Photo 4",
+      "caption": "Photo 4"
+    }
+  ]
+}

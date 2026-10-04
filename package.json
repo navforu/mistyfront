@@ -1,0 +1,19 @@
+{
+  "name": "mistfront",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static marketing site for the Mistfront weekend retreat",
+  "scripts": {
+    "gallery": "python scripts/generate_gallery.py",
+    "prestart": "python scripts/generate_gallery.py",
+    "start": "python -m http.server 5500 --directory src",
+    "serve": "python scripts/generate_gallery.py && python -m http.server 5500 --directory src",
+    "pretest": "python scripts/generate_gallery.py",
+    "test": "node --test tests/site.test.js",
+    "pretest:py": "python scripts/generate_gallery.py",
+    "test:py": "python tests/site_test.py"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
