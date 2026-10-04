@@ -166,7 +166,11 @@ describe("enquiry client behavior", () => {
     assert.match(js(), /validateForm/);
     assert.match(js(), /phoneError|phone_full/);
     assert.match(js(), /whatsapp_available/);
-    assert.match(js(), /Departure date must be after|departureOrderError/);
+    assert.match(js(), /departureOrderError/);
+    assert.match(
+      fs.readFileSync(validationPath, "utf8"),
+      /cannot be before the arrival date/
+    );
     assert.match(validation(), /normalizePrefix/);
     assert.match(validation(), /phoneError/);
     assert.match(validation(), /buildPhoneFull/);

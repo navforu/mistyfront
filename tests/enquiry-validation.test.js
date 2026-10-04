@@ -62,8 +62,9 @@ describe("enquiry validation rules", () => {
     );
     assert.match(
       rules.departureOrderError("2026-10-08", "2026-10-06"),
-      /after the arrival date/i
+      /before the arrival date/i
     );
+    assert.equal(rules.departureOrderError("2026-10-06", "2026-10-06"), "");
     assert.equal(rules.departureOrderError("2026-10-06", "2026-10-08"), "");
   });
 

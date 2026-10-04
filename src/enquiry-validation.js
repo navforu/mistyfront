@@ -79,8 +79,8 @@
 
   const departureOrderError = (arrival, departure) => {
     if (!arrival || !departure) return "";
-    if (departure <= arrival) {
-      return "Departure date must be after the arrival date.";
+    if (departure < arrival) {
+      return "Departure date cannot be before the arrival date.";
     }
     return "";
   };

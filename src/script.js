@@ -239,12 +239,7 @@
 
     const syncDepartureMin = () => {
       if (!arrivalInput || !departureInput || !arrivalInput.value) return;
-      const nextDay = new Date(`${arrivalInput.value}T00:00:00`);
-      nextDay.setDate(nextDay.getDate() + 1);
-      const year = nextDay.getFullYear();
-      const month = String(nextDay.getMonth() + 1).padStart(2, "0");
-      const day = String(nextDay.getDate()).padStart(2, "0");
-      const minDeparture = `${year}-${month}-${day}`;
+      const minDeparture = arrivalInput.value;
       departureInput.min = minDeparture;
       if (departureInput.value && departureInput.value < minDeparture) {
         departureInput.value = "";
