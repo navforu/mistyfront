@@ -121,7 +121,19 @@
     const requiredFields = Array.from(
       enquireForm.querySelectorAll("[data-required-label]")
     );
+    const arrivalInput = enquireForm.querySelector("#enquire-arrival");
+    const departureInput = enquireForm.querySelector("#enquire-departure");
     const endpoint = "https://formsubmit.co/ajax/mistfrontvilla@gmail.com";
+
+    const todayIso = () => {
+      const now = new Date();
+      const offset = now.getTimezoneOffset();
+      const local = new Date(now.getTime() - offset * 60000);
+      return local.toISOString().slice(0, 10);
+    };
+
+    if (arrivalInput) arrivalInput.min = todayIso();
+    if (departureInput) departureInput.min = todayIso();
 
     const setFormStatus = (text, state) => {
       if (!formStatus) return;
@@ -140,53 +152,113 @@
       field.setAttribute("aria-invalid", "true");
     };
 
-    const isFilled = (field) => {
-      const value = field.value.trim();
-      if (!value) return false;
-      if (field.type === "email") {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-      }
-      if (field.name === "number_of_people") {
-        return /^[1-9]\d*$/.test(value);
-      }
-      return true;
+    const isValidPhone = (value) => {
+      const digits = value.replace(/\D/g, "");
+      if (/^91\d{10}$/.test(digits)) return true;
+      if (/^0\d{10}$/.test(digits)) return true;
+      return /^[6-9]\d{9}$/.test(digits);
     };
 
-    const validateRequiredFields = () => {
-      const missing = [];
+    const fieldError = (field) => {
+      const label = field.dataset.requiredLabel || field.name;
+      const value = field.value.trim();
+
+      if (!value) return `Please fill in ${label}.`;
+
+      if (field.type === "email" || field.name === "email") {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          return "Please enter a valid email address.";
+        }
+      }
+
+      if (field.name === "phone") {
+        if (!isValidPhone(value)) {
+          return "Please enter a valid 10-digit Indian mobile number.";
+        }
+      }
+
+      if (field.name === "number_of_people") {
+        if (!/^[1-9]\d*$/.test(value) || Number(value) > 20) {
+          return "Please enter a valid number of people (1–20).";
+        }
+      }
+
+      if (field.name === "arrival_date" || field.name === "departure_date") {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+          return `Please choose a valid ${label.toLowerCase()}.`;
+        }
+        if (value < todayIso()) {
+          return `${label} cannot be in the past.`;
+        }
+      }
+
+      return "";
+    };
+
+    const validateForm = () => {
+      const errors = [];
 
       requiredFields.forEach((field) => {
         clearFieldError(field);
-        if (!isFilled(field)) {
+        const error = fieldError(field);
+        if (error) {
           markFieldError(field);
-          missing.push(field.dataset.requiredLabel || field.name);
+          errors.push({ field, error });
         }
       });
 
-      return missing;
+      if (
+        arrivalInput?.value &&
+        departureInput?.value &&
+        !arrivalInput.classList.contains("is-invalid") &&
+        !departureInput.classList.contains("is-invalid") &&
+        departureInput.value <= arrivalInput.value
+      ) {
+        markFieldError(departureInput);
+        errors.push({
+          field: departureInput,
+          error: "Departure date must be after the arrival date.",
+        });
+      }
+
+      return errors;
     };
 
+    const syncDepartureMin = () => {
+      if (!arrivalInput || !departureInput || !arrivalInput.value) return;
+      const nextDay = new Date(`${arrivalInput.value}T00:00:00`);
+      nextDay.setDate(nextDay.getDate() + 1);
+      const year = nextDay.getFullYear();
+      const month = String(nextDay.getMonth() + 1).padStart(2, "0");
+      const day = String(nextDay.getDate()).padStart(2, "0");
+      const minDeparture = `${year}-${month}-${day}`;
+      departureInput.min = minDeparture;
+      if (departureInput.value && departureInput.value < minDeparture) {
+        departureInput.value = "";
+      }
+    };
+
+    arrivalInput?.addEventListener("change", syncDepartureMin);
+
     requiredFields.forEach((field) => {
-      field.addEventListener("input", () => {
-        if (isFilled(field)) clearFieldError(field);
-      });
-      field.addEventListener("blur", () => {
-        if (!isFilled(field)) markFieldError(field);
+      const recheck = () => {
+        const error = fieldError(field);
+        if (error) markFieldError(field);
         else clearFieldError(field);
-      });
+        if (field === arrivalInput) syncDepartureMin();
+      };
+      field.addEventListener("input", recheck);
+      field.addEventListener("change", recheck);
+      field.addEventListener("blur", recheck);
     });
 
     enquireForm.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      const missing = validateRequiredFields();
-      if (missing.length) {
-        const list =
-          missing.length === 1
-            ? missing[0]
-            : `${missing.slice(0, -1).join(", ")}, and ${missing[missing.length - 1]}`;
-        setFormStatus(`Please fill in ${list} before sending your enquiry.`, "is-error");
-        enquireForm.querySelector(`[data-required-label="${missing[0]}"]`)?.focus();
+      const errors = validateForm();
+      if (errors.length) {
+        setFormStatus(errors[0].error, "is-error");
+        errors[0].field.focus();
         return;
       }
 
@@ -195,6 +267,7 @@
 
       const formData = new FormData(enquireForm);
       const payload = Object.fromEntries(formData.entries());
+      payload.trip_dates = `${payload.arrival_date} to ${payload.departure_date}`;
 
       try {
         const response = await fetch(endpoint, {
@@ -212,6 +285,8 @@
         }
 
         enquireForm.reset();
+        if (arrivalInput) arrivalInput.min = todayIso();
+        if (departureInput) departureInput.min = todayIso();
         requiredFields.forEach(clearFieldError);
         setFormStatus("Thanks — your enquiry was sent. We will reply by email soon.", "is-success");
       } catch (error) {

@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Figtree:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=4" />
+    <link rel="stylesheet" href="styles.css?v=5" />
   </head>
   <body>
     <header class="site-header">
@@ -297,7 +297,9 @@
                 type="tel"
                 name="phone"
                 autocomplete="tel"
-                maxlength="80"
+                inputmode="tel"
+                placeholder="e.g. 9876543210"
+                maxlength="20"
                 size="40"
                 required
                 data-required-label="Phone number"
@@ -319,19 +321,28 @@
                 data-required-label="Number of people"
               />
 
-              <label class="form-label" for="enquire-dates">
-                Trip dates <span class="required" aria-hidden="true">*</span>
+              <label class="form-label" for="enquire-arrival">
+                Arrival date <span class="required" aria-hidden="true">*</span>
               </label>
               <input
                 class="form-control"
-                id="enquire-dates"
-                type="text"
-                name="trip_dates"
-                placeholder="e.g. 12–14 Oct 2026"
-                maxlength="80"
-                size="40"
+                id="enquire-arrival"
+                type="date"
+                name="arrival_date"
                 required
-                data-required-label="Trip dates"
+                data-required-label="Arrival date"
+              />
+
+              <label class="form-label" for="enquire-departure">
+                Departure date <span class="required" aria-hidden="true">*</span>
+              </label>
+              <input
+                class="form-control"
+                id="enquire-departure"
+                type="date"
+                name="departure_date"
+                required
+                data-required-label="Departure date"
               />
 
               <label class="form-label form-label-top" for="enquire-message">
@@ -375,6 +386,6 @@
       <p>Where the mountains meet the mist.</p>
     </footer>
 
-    <script src="script.js?v=4"></script>
+    <script src="script.js?v=5"></script>
   </body>
 </html>

@@ -82,8 +82,10 @@ class PageContentTests(unittest.TestCase):
         self.assertIn("formsubmit.co", HTML)
         self.assertIn('name="email"', HTML)
         self.assertIn('name="phone"', HTML)
-        self.assertIn('name="trip_dates"', HTML)
+        self.assertIn('name="arrival_date"', HTML)
+        self.assertIn('name="departure_date"', HTML)
         self.assertIn('name="number_of_people"', HTML)
+        self.assertIn('type="date"', HTML)
         self.assertNotRegex(HTML, r"Share my location")
         self.assertNotIn("data-geo-button", HTML)
         self.assertIn('class="required"', HTML)
@@ -129,7 +131,8 @@ class ClientAssetTests(unittest.TestCase):
     def test_enquiry_form_script(self) -> None:
         self.assertIn("formsubmit.co/ajax/mistfrontvilla@gmail.com", JS)
         self.assertNotIn("getCurrentPosition", JS)
-        self.assertTrue("validateRequiredFields" in JS or "Please fill in" in JS)
+        self.assertTrue("isValidPhone" in JS or "valid 10-digit" in JS)
+        self.assertTrue("arrival_date" in JS or "Departure date must be after" in JS)
 
     def test_brand_css(self) -> None:
         self.assertIn("--forest", CSS)

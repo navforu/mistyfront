@@ -80,8 +80,10 @@ describe("page content", () => {
     assert.match(html(), /formsubmit\.co/);
     assert.match(html(), /name="email"/);
     assert.match(html(), /name="phone"/);
-    assert.match(html(), /name="trip_dates"/);
+    assert.match(html(), /name="arrival_date"/);
+    assert.match(html(), /name="departure_date"/);
     assert.match(html(), /name="number_of_people"/);
+    assert.match(html(), /type="date"/);
     assert.doesNotMatch(html(), /Share my location/i);
     assert.doesNotMatch(html(), /data-geo-button/);
     assert.match(html(), /class="required"/);
@@ -139,7 +141,8 @@ describe("client scripts and styles", () => {
   it("submits the enquiry form by email gateway", () => {
     assert.match(js(), /formsubmit\.co\/ajax\/mistfrontvilla@gmail\.com/);
     assert.doesNotMatch(js(), /getCurrentPosition/);
-    assert.match(js(), /validateRequiredFields|Please fill in/);
+    assert.match(js(), /isValidPhone|valid 10-digit/);
+    assert.match(js(), /arrival_date|Departure date must be after/);
   });
 
   it("defines brand-facing CSS variables", () => {
