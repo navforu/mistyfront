@@ -23,14 +23,14 @@ Do not leave production HTML/CSS/JS at the repo root. New pages, styles, scripts
 - Adding photos to `src/images/` must update the gallery via `gallery.json`.
 - Do not hardcode gallery slides in `index.html`.
 - Regenerate with `python scripts/generate_gallery.py` (also runs on `npm start` and in CI).
-- Exclude `hero.jpg` and files starting with `_` or `.`.
+- Exclude flyer/reference assets and files starting with `_` or `.`.
 
 ## Non-negotiable content rules
 
-- **Never publish** the flyer phone numbers (`9894748313`, `9600418844`) unless the owner explicitly requests it.
-- **Never publish** the nightly rate (`Rs. 10000/night` or equivalents) unless the owner explicitly requests it.
-- Prefer **Contact for details** and Maps/address for enquiry paths.
+- **Never publish** phone numbers, street address, map links to a private address, email addresses, or nightly rates unless the owner explicitly requests it.
+- Prefer a generic **Contact for details** / **Enquire** CTA with no personal channels.
 - Keep the Mistfront brand and tagline (“Where the Mountains Meet the Mist”) prominent in the first viewport.
+- Do not deploy flyer images that embed contact or pricing details.
 
 ## Design constraints
 

@@ -13,6 +13,24 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 WORKFLOW = ROOT / ".github" / "workflows" / "deploy-pages.yml"
 
+PERSONAL_INFO_PATTERNS = [
+    r"9894748313",
+    r"9600418844",
+    r"10000\s*/\s*night",
+    r"Rs\.?\s*10000",
+    r"₹\s*10,?000",
+    r"KCP\s*Etti\s*Farms",
+    r"Iyyampathi",
+    r"Chinniya\s*Goundan\s*Pudur",
+    r"Ettimadai",
+    r"Coimbatore",
+    r"641105",
+    r"SF\s*No\.?\s*141",
+    r"google\.com/maps",
+    r"tel:",
+    r"mailto:",
+]
+
 
 def generate_gallery() -> None:
     subprocess.run(
@@ -27,7 +45,8 @@ generate_gallery()
 HTML = (SRC / "index.html").read_text(encoding="utf-8")
 CSS = (SRC / "styles.css").read_text(encoding="utf-8")
 JS = (SRC / "script.js").read_text(encoding="utf-8")
-GALLERY = json.loads((SRC / "gallery.json").read_text(encoding="utf-8"))
+GALLERY_TEXT = (SRC / "gallery.json").read_text(encoding="utf-8")
+GALLERY = json.loads(GALLERY_TEXT)
 
 
 class ProjectLayoutTests(unittest.TestCase):
@@ -41,11 +60,12 @@ class ProjectLayoutTests(unittest.TestCase):
         self.assertTrue(WORKFLOW.is_file())
         self.assertIn("deploy-pages", WORKFLOW.read_text(encoding="utf-8"))
 
-    def test_gallery_photos_exist(self) -> None:
+    def test_gallery_photos_exist_without_flyer(self) -> None:
         for name in ("1.jpg", "2.jpg", "3.jpg", "4.jpg"):
             photo = SRC / "images" / name
             self.assertTrue(photo.is_file(), f"missing {name}")
             self.assertGreater(photo.stat().st_size, 0)
+        self.assertFalse((SRC / "images" / "hero.jpg").exists())
 
 
 class PageContentTests(unittest.TestCase):
@@ -54,7 +74,7 @@ class PageContentTests(unittest.TestCase):
         self.assertRegex(HTML, r"Where the Mountains Meet the Mist")
 
     def test_core_sections(self) -> None:
-        for section_id in ("highlights", "gallery", "stay", "location"):
+        for section_id in ("highlights", "gallery", "stay", "enquire"):
             self.assertIn(f'id="{section_id}"', HTML)
 
     def test_assets_and_slideshow(self) -> None:
@@ -63,10 +83,9 @@ class PageContentTests(unittest.TestCase):
         self.assertIn("data-slideshow", HTML)
         self.assertIn("slideshow-stage", HTML)
 
-    def test_location_and_enquiry_cta(self) -> None:
-        self.assertRegex(HTML, r"Ettimadai")
-        self.assertRegex(HTML, r"Coimbatore")
+    def test_enquiry_cta(self) -> None:
         self.assertRegex(HTML, r"Contact for details")
+        self.assertRegex(HTML, r"Enquire")
 
 
 class DynamicGalleryTests(unittest.TestCase):
@@ -89,16 +108,10 @@ class PrivacyTests(unittest.TestCase):
             "index.html": HTML,
             "styles.css": CSS,
             "script.js": JS,
+            "gallery.json": GALLERY_TEXT,
         }
-        banned = [
-            r"9894748313",
-            r"9600418844",
-            r"10000\s*/\s*night",
-            r"Rs\.?\s*10000",
-            r"₹\s*10,?000",
-        ]
         for label, content in sources.items():
-            for pattern in banned:
+            for pattern in PERSONAL_INFO_PATTERNS:
                 self.assertIsNone(
                     re.search(pattern, content, flags=re.IGNORECASE),
                     f"{label} unexpectedly matches {pattern}",

@@ -13,6 +13,24 @@ const galleryPath = path.join(srcDir, "gallery.json");
 const imagesDir = path.join(srcDir, "images");
 const workflowPath = path.join(root, ".github", "workflows", "deploy-pages.yml");
 
+const PERSONAL_INFO_PATTERNS = [
+  /9894748313/,
+  /9600418844/,
+  /10000\s*\/\s*night/i,
+  /Rs\.?\s*10000/i,
+  /₹\s*10,?000/i,
+  /KCP\s*Etti\s*Farms/i,
+  /Iyyampathi/i,
+  /Chinniya\s*Goundan\s*Pudur/i,
+  /Ettimadai/i,
+  /Coimbatore/i,
+  /641105/,
+  /SF\s*No\.?\s*141/i,
+  /google\.com\/maps/i,
+  /tel:/i,
+  /mailto:/i,
+];
+
 before(() => {
   execFileSync("python", [path.join(root, "scripts", "generate_gallery.py")], {
     cwd: root,
@@ -38,12 +56,13 @@ describe("project layout", () => {
     assert.match(fs.readFileSync(workflowPath, "utf8"), /deploy-pages/);
   });
 
-  it("includes gallery photos on disk", () => {
+  it("includes gallery photos on disk and excludes the flyer asset", () => {
     for (const name of ["1.jpg", "2.jpg", "3.jpg", "4.jpg"]) {
       const photoPath = path.join(imagesDir, name);
       assert.ok(fs.existsSync(photoPath), `missing ${name}`);
       assert.ok(fs.statSync(photoPath).size > 0, `${name} should not be empty`);
     }
+    assert.ok(!fs.existsSync(path.join(imagesDir, "hero.jpg")));
   });
 });
 
@@ -54,7 +73,7 @@ describe("page content", () => {
   });
 
   it("includes the core sections", () => {
-    for (const id of ["highlights", "gallery", "stay", "location"]) {
+    for (const id of ["highlights", "gallery", "stay", "enquire"]) {
       assert.match(html(), new RegExp(`id="${id}"`));
     }
   });
@@ -66,10 +85,9 @@ describe("page content", () => {
     assert.match(html(), /slideshow-stage/);
   });
 
-  it("shows location without inventing contact channels", () => {
-    assert.match(html(), /Ettimadai/i);
-    assert.match(html(), /Coimbatore/i);
+  it("keeps enquiry generic without contact channels", () => {
     assert.match(html(), /Contact for details/i);
+    assert.match(html(), /Enquire/i);
   });
 });
 
@@ -83,7 +101,7 @@ describe("dynamic gallery", () => {
     for (const name of ["1.jpg", "2.jpg", "3.jpg", "4.jpg"]) {
       assert.ok(sources.includes(`images/${name}`), `gallery missing ${name}`);
     }
-    assert.ok(!sources.includes("images/hero.jpg"), "hero.jpg should stay out of the gallery");
+    assert.ok(!sources.includes("images/hero.jpg"));
   });
 
   it("loads the gallery manifest in the client script", () => {
@@ -93,17 +111,22 @@ describe("dynamic gallery", () => {
 });
 
 describe("privacy constraints", () => {
-  const labels = ["index.html", "styles.css", "script.js"];
+  const labels = ["index.html", "styles.css", "script.js", "gallery.json"];
 
   for (const label of labels) {
-    it(`omits phone numbers and nightly rate from ${label}`, () => {
+    it(`omits personal contact and location details from ${label}`, () => {
       const content =
-        label === "index.html" ? html() : label === "styles.css" ? css() : js();
-      assert.doesNotMatch(content, /9894748313/);
-      assert.doesNotMatch(content, /9600418844/);
-      assert.doesNotMatch(content, /10000\s*\/\s*night/i);
-      assert.doesNotMatch(content, /Rs\.?\s*10000/i);
-      assert.doesNotMatch(content, /₹\s*10,?000/i);
+        label === "index.html"
+          ? html()
+          : label === "styles.css"
+            ? css()
+            : label === "script.js"
+              ? js()
+              : fs.readFileSync(galleryPath, "utf8");
+
+      for (const pattern of PERSONAL_INFO_PATTERNS) {
+        assert.doesNotMatch(content, pattern);
+      }
     });
   }
 });

@@ -12,7 +12,7 @@ OUTPUT = ROOT / "src" / "gallery.json"
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"}
 EXCLUDED_NAMES = {
-    "hero.jpg",  # flyer reference art, not a gallery photo
+    "hero.jpg",  # flyer/reference art may contain private contact details
 }
 
 

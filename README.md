@@ -1,8 +1,8 @@
 # Mistfront
 
-Static website for the **Mistfront** weekend retreat at the foothills of the Western Ghats near Ettimadai, Coimbatore.
+Static website for the **Mistfront** weekend retreat at the foothills of the Western Ghats.
 
-The site showcases the A-frame cabin, main villa, and pool. Nightly rate and phone numbers are intentionally omitted; visitors can use **Contact for details** and **Open in Maps**.
+The site showcases the A-frame cabin, main villa, and pool. Personal contact details, street address, phone numbers, and pricing are intentionally omitted from the published site.
 
 Live site (GitHub Pages): https://navforu.github.io/mistyfront/
 
@@ -57,7 +57,7 @@ Open [http://127.0.0.1:5500](http://127.0.0.1:5500).
 
 Notes:
 
-- `hero.jpg` is excluded (flyer reference art).
+- Do not add flyer images that contain phone numbers, prices, or street addresses.
 - Files starting with `_` or `.` are ignored.
 - Captions come from the filename (`pool-view.jpg` → “Pool View”; `5.jpg` → “Photo 5”).
 
@@ -89,5 +89,5 @@ Tests verify layout, branding, dynamic gallery generation, the Pages workflow, a
 
 - Brand: Mistfront
 - Tagline: Where the Mountains Meet the Mist
-- Address: KCP Etti Farms, SF No. 141, Iyyampathi Road, Chinniya Goundan Pudur, Ettimadai, Coimbatore, Tamil Nadu 641105
-- Do not publish the flyer phone numbers or `Rs. 10000/night` rate unless product owners explicitly ask to restore them
+- Published site may include photos and property amenities only
+- Do not publish phone numbers, street address, maps links to a private address, or nightly rates unless owners explicitly ask
