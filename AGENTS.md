@@ -43,10 +43,11 @@ Do not leave production HTML/CSS/JS at the repo root. New pages, styles, scripts
 ## Working conventions
 
 1. Edit files in `src/`; update `tests/` when structure or privacy rules change.
-2. Run `npm run gallery` after changing images, then `npm test` / `npm run test:py`.
+2. Run `npm run gallery` after changing images, then `npm run test:all`.
 3. Serve from `src/` (`npm start`).
-4. Do not commit secrets, credentials, or private contact details.
-5. Do not create commits or PRs unless the user asks.
+4. Keep enquiry validation rules in `src/enquiry-validation.js` and cover them with tests.
+5. Do not commit secrets, credentials, or private contact details.
+6. Do not create commits or PRs unless the user asks. CI must keep passing on push/PR.
 
 ## Useful commands
 

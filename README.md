@@ -14,12 +14,13 @@ mistyfront/
 │   ├── index.html
 │   ├── styles.css
 │   ├── script.js
+│   ├── enquiry-validation.js
 │   ├── gallery.json     # generated from images/
 │   └── images/
 ├── scripts/
 │   └── generate_gallery.py
-├── tests/
-├── .github/workflows/   # Pages deploy
+├── tests/               # Node + Python suites
+├── .github/workflows/   # CI + Pages deploy
 ├── AGENTS.md
 ├── package.json
 └── README.md
@@ -66,8 +67,10 @@ Notes:
 Pushing to `main` runs `.github/workflows/deploy-pages.yml`, which:
 
 1. Regenerates `gallery.json`
-2. Runs the Python site checks
+2. Runs the full Python and Node test suites
 3. Publishes the contents of `src/` to GitHub Pages
+
+Every push and pull request also runs `.github/workflows/ci.yml` with the same tests.
 
 One-time repo setting (if Pages is not already using Actions):
 
@@ -79,11 +82,25 @@ Site URL: https://navforu.github.io/mistyfront/
 ## Tests
 
 ```bash
+npm run test:all
+```
+
+Or separately:
+
+```bash
 npm test
 npm run test:py
 ```
 
-Tests verify layout, branding, dynamic gallery generation, the Pages workflow, and privacy constraints (no phone numbers or nightly rate).
+Coverage includes:
+
+- Site layout under `src/` and gallery auto-generation
+- Branding, address, and FormSubmit enquiry form
+- Required-field asterisks and shared validation rules
+- Phone prefix (`+91` default, max 3 digits) and WhatsApp checkbox
+- Arrival/departure date rules
+- Owner phone numbers stay unpublished
+- CI workflows that execute these suites
 
 ## Content notes
 

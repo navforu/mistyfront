@@ -9,9 +9,9 @@
     "start": "python -m http.server 5500 --directory src",
     "serve": "python scripts/generate_gallery.py && python -m http.server 5500 --directory src",
     "pretest": "python scripts/generate_gallery.py",
-    "test": "node --test tests/site.test.js",
-    "pretest:py": "python scripts/generate_gallery.py",
-    "test:py": "python tests/site_test.py"
+    "test": "node --test tests/site.test.js tests/enquiry-validation.test.js",
+    "test:py": "python tests/site_test.py && python tests/enquiry_validation_test.py",
+    "test:all": "npm run test:py && npm test"
   },
   "engines": {
     "node": ">=18"

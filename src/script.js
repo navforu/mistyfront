@@ -156,66 +156,23 @@
       field.setAttribute("aria-invalid", "true");
     };
 
-    const digitsOnly = (value) => value.replace(/\D/g, "");
+    const rules = globalThis.MistfrontEnquiry;
+    if (!rules) {
+      console.error("Mistfront enquiry validation module failed to load.");
+    }
 
-    const normalizedPrefix = () => {
-      const digits = digitsOnly(prefixInput?.value || "");
-      return digits.slice(0, 3) || "91";
-    };
-
-    const phoneError = () => {
-      const prefix = digitsOnly(prefixInput?.value || "");
-      if (prefix && !/^\d{1,3}$/.test(prefix)) {
-        return "Country code can have up to 3 digits.";
-      }
-
-      const number = digitsOnly(phoneInput?.value || "");
-      if (!number) return "Please fill in Phone number.";
-
-      const code = normalizedPrefix();
-      if (code === "91") {
-        if (!/^[6-9]\d{9}$/.test(number)) {
-          return "For +91, enter a valid 10-digit mobile number.";
-        }
-        return "";
-      }
-
-      if (!/^\d{6,12}$/.test(number)) {
-        return "Please enter a valid phone number (6–12 digits).";
-      }
-      return "";
-    };
+    const digitsOnly = (value) => rules.digitsOnly(value);
+    const normalizedPrefix = () => rules.normalizePrefix(prefixInput?.value || "");
+    const phoneError = () =>
+      rules.phoneError(prefixInput?.value || "", phoneInput?.value || "");
 
     const fieldError = (field) => {
+      if (!rules) return "Form validation is unavailable.";
       if (field === phoneInput) return phoneError();
-
-      const label = field.dataset.requiredLabel || field.name;
-      const value = field.value.trim();
-
-      if (!value) return `Please fill in ${label}.`;
-
-      if (field.type === "email" || field.name === "email") {
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-          return "Please enter a valid email address.";
-        }
-      }
-
-      if (field.name === "number_of_people") {
-        if (!/^[1-9]\d*$/.test(value) || Number(value) > 20) {
-          return "Please enter a valid number of people (1–20).";
-        }
-      }
-
-      if (field.name === "arrival_date" || field.name === "departure_date") {
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-          return `Please choose a valid ${label.toLowerCase()}.`;
-        }
-        if (value < todayIso()) {
-          return `${label} cannot be in the past.`;
-        }
-      }
-
-      return "";
+      return rules.fieldError(field.name, field.value, {
+        today: todayIso(),
+        prefix: prefixInput?.value || "",
+      });
     };
 
     const setPhoneGroupInvalid = (invalid) => {
@@ -249,17 +206,21 @@
         errors.push({ field: phoneInput, error: phoneIssue });
       }
 
+      const orderError = rules?.departureOrderError(
+        arrivalInput?.value || "",
+        departureInput?.value || ""
+      );
       if (
-        arrivalInput?.value &&
-        departureInput?.value &&
+        orderError &&
+        arrivalInput &&
+        departureInput &&
         !arrivalInput.classList.contains("is-invalid") &&
-        !departureInput.classList.contains("is-invalid") &&
-        departureInput.value <= arrivalInput.value
+        !departureInput.classList.contains("is-invalid")
       ) {
         markFieldError(departureInput);
         errors.push({
           field: departureInput,
-          error: "Departure date must be after the arrival date.",
+          error: orderError,
         });
       }
 
@@ -336,7 +297,7 @@
       const number = digitsOnly(phoneInput.value);
       payload.phone_prefix = prefix;
       payload.phone = number;
-      payload.phone_full = `+${prefix}${number}`;
+      payload.phone_full = rules.buildPhoneFull(prefix, number);
       payload.whatsapp_available = whatsappInput?.checked ? "Yes" : "No";
       payload.trip_dates = `${payload.arrival_date} to ${payload.departure_date}`;
 
