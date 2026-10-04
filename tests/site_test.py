@@ -23,7 +23,7 @@ OWNER_PHONE_PATTERNS = [
 REQUIRED_LABELS = [
     "Full name",
     "Email",
-    "Phone number",
+    "Mobile number",
     "Number of people",
     "Arrival date",
     "Departure date",
@@ -145,7 +145,7 @@ class EnquiryFormRequirementTests(unittest.TestCase):
 
     def test_whatsapp_checkbox_on_right(self) -> None:
         self.assertIn('name="whatsapp_available"', HTML)
-        self.assertIn("This number is available on WhatsApp", HTML)
+        self.assertIn("This mobile number is available on WhatsApp", HTML)
         self.assertIn("form-spacer", HTML)
         self.assertIn(".form-spacer", CSS)
 

@@ -8,7 +8,7 @@
   const REQUIRED_FIELDS = [
     "Full name",
     "Email",
-    "Phone number",
+    "Mobile number",
     "Number of people",
     "Arrival date",
     "Departure date",
@@ -42,19 +42,19 @@
     }
 
     const number = digitsOnly(numberValue);
-    if (!number) return "Please fill in Phone number.";
+    if (!number) return "Please fill in Mobile number.";
 
-    const code = normalizePrefix(prefixValue);
-    if (code === "91") {
-      if (!/^[6-9]\d{9}$/.test(number)) {
-        return "For +91, enter a 10-digit mobile number starting with 6, 7, 8, or 9.";
+      const code = normalizePrefix(prefixValue);
+      if (code === "91") {
+        if (!/^[6-9]\d{9}$/.test(number)) {
+          return "For +91, enter a 10-digit mobile number starting with 6, 7, 8, or 9.";
+        }
+        return "";
       }
-      return "";
-    }
 
-    if (!/^\d{6,12}$/.test(number)) {
-      return "Please enter a valid phone number (6–12 digits).";
-    }
+      if (!/^\d{6,12}$/.test(number)) {
+        return "Please enter a valid mobile number (6–12 digits).";
+      }
     return "";
   };
 

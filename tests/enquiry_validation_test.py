@@ -26,7 +26,7 @@ def phone_error(prefix_value: str, number_value: str) -> str:
 
     number = digits_only(number_value)
     if not number:
-        return "Please fill in Phone number."
+        return "Please fill in Mobile number."
 
     code = normalize_prefix(prefix_value)
     if code == "91":
@@ -35,7 +35,7 @@ def phone_error(prefix_value: str, number_value: str) -> str:
         return ""
 
     if not re.fullmatch(r"\d{6,12}", number):
-        return "Please enter a valid phone number (6–12 digits)."
+        return "Please enter a valid mobile number (6–12 digits)."
     return ""
 
 
@@ -64,7 +64,7 @@ class EnquiryValidationTests(unittest.TestCase):
     def test_valid_and_invalid_phones(self) -> None:
         self.assertEqual(phone_error("91", "9876543210"), "")
         self.assertEqual(phone_error("1", "4401234123"), "")
-        self.assertIn("Phone number", phone_error("91", "asdf"))
+        self.assertIn("Mobile number", phone_error("91", "asdf"))
         self.assertIn("starting with 6, 7, 8, or 9", phone_error("91", "1234567890"))
         self.assertIn("starting with 6, 7, 8, or 9", phone_error("91", "4321432143"))
         self.assertIn("6–12 digits", phone_error("1", "12"))

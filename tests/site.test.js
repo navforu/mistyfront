@@ -107,7 +107,7 @@ describe("enquiry form requirements", () => {
     for (const label of [
       "Full name",
       "Email",
-      "Phone number",
+      "Mobile number",
       "Number of people",
       "Arrival date",
       "Departure date",
@@ -148,7 +148,7 @@ describe("enquiry form requirements", () => {
 
   it("includes WhatsApp availability on the right side of the form", () => {
     assert.match(html(), /name="whatsapp_available"/);
-    assert.match(html(), /This number is available on WhatsApp/);
+    assert.match(html(), /This mobile number is available on WhatsApp/);
     assert.match(html(), /form-spacer/);
     assert.match(css(), /\.form-spacer/);
   });
