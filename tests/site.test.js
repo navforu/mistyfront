@@ -13,7 +13,7 @@ const galleryPath = path.join(srcDir, "gallery.json");
 const imagesDir = path.join(srcDir, "images");
 const workflowPath = path.join(root, ".github", "workflows", "deploy-pages.yml");
 
-const PHONE_PATTERNS = [/9894748313/, /9600418844/, /tel:/i];
+const PHONE_PATTERNS = [/9894748313/, /9600418844/, /href\s*=\s*["']tel:/i];
 
 before(() => {
   execFileSync("python", [path.join(root, "scripts", "generate_gallery.py")], {
@@ -69,15 +69,20 @@ describe("page content", () => {
     assert.match(html(), /slideshow-stage/);
   });
 
-  it("shows the property address and enquiry CTA", () => {
+  it("shows the property address and enquiry form", () => {
     assert.match(html(), /KCP Etti Farms/i);
     assert.match(html(), /Ettimadai/i);
     assert.match(html(), /Coimbatore/i);
     assert.match(html(), /Contact for details/i);
-    assert.match(html(), /mailto:mistfrontvilla@gmail\.com/);
-    assert.match(html(), /Phone%20number|phone number/i);
-    assert.match(html(), /Trip%20dates|trip dates/i);
-    assert.match(html(), /Number%20of%20people|number of people/i);
+    assert.match(html(), /id="enquire"/);
+    assert.match(html(), /data-enquire-form/);
+    assert.match(html(), /mistfrontvilla@gmail\.com/);
+    assert.match(html(), /formsubmit\.co/);
+    assert.match(html(), /name="email"/);
+    assert.match(html(), /name="phone"/);
+    assert.match(html(), /name="trip_dates"/);
+    assert.match(html(), /name="number_of_people"/);
+    assert.match(html(), /visitor_latitude|data-geo-lat/);
   });
 });
 
@@ -126,6 +131,12 @@ describe("client scripts and styles", () => {
     assert.match(js(), /data-slideshow/);
     assert.match(js(), /data-prev|data-next/);
     assert.match(js(), /slideshow-dot|goTo/);
+  });
+
+  it("submits the enquiry form and captures geolocation", () => {
+    assert.match(js(), /formsubmit\.co\/ajax\/mistfrontvilla@gmail\.com/);
+    assert.match(js(), /geolocation/i);
+    assert.match(js(), /getCurrentPosition/);
   });
 
   it("defines brand-facing CSS variables", () => {

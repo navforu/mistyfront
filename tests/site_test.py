@@ -16,7 +16,7 @@ WORKFLOW = ROOT / ".github" / "workflows" / "deploy-pages.yml"
 PHONE_PATTERNS = [
     r"9894748313",
     r"9600418844",
-    r"tel:",
+    r"""href\s*=\s*["']tel:""",
 ]
 
 
@@ -71,15 +71,20 @@ class PageContentTests(unittest.TestCase):
         self.assertIn("data-slideshow", HTML)
         self.assertIn("slideshow-stage", HTML)
 
-    def test_location_and_enquiry_cta(self) -> None:
+    def test_location_and_enquiry_form(self) -> None:
         self.assertRegex(HTML, r"KCP Etti Farms")
         self.assertRegex(HTML, r"Ettimadai")
         self.assertRegex(HTML, r"Coimbatore")
         self.assertRegex(HTML, r"Contact for details")
-        self.assertRegex(HTML, r"mailto:mistfrontvilla@gmail\.com")
-        self.assertRegex(HTML, r"Phone%20number|phone number")
-        self.assertRegex(HTML, r"Trip%20dates|trip dates")
-        self.assertRegex(HTML, r"Number%20of%20people|number of people")
+        self.assertIn('id="enquire"', HTML)
+        self.assertIn("data-enquire-form", HTML)
+        self.assertRegex(HTML, r"mistfrontvilla@gmail\.com")
+        self.assertIn("formsubmit.co", HTML)
+        self.assertIn('name="email"', HTML)
+        self.assertIn('name="phone"', HTML)
+        self.assertIn('name="trip_dates"', HTML)
+        self.assertIn('name="number_of_people"', HTML)
+        self.assertIn("data-geo-lat", HTML)
 
 
 class DynamicGalleryTests(unittest.TestCase):
@@ -117,6 +122,11 @@ class ClientAssetTests(unittest.TestCase):
         self.assertIn("data-slideshow", JS)
         self.assertTrue("data-prev" in JS or "data-next" in JS)
         self.assertTrue("slideshow-dot" in JS or "goTo" in JS)
+
+    def test_enquiry_form_script(self) -> None:
+        self.assertIn("formsubmit.co/ajax/mistfrontvilla@gmail.com", JS)
+        self.assertIn("geolocation", JS)
+        self.assertIn("getCurrentPosition", JS)
 
     def test_brand_css(self) -> None:
         self.assertIn("--forest", CSS)

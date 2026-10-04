@@ -45,13 +45,9 @@
         <a href="#gallery">Gallery</a>
         <a href="#stay">Stay</a>
         <a href="#location">Location</a>
+        <a href="#enquire">Enquire</a>
       </nav>
-      <a
-        class="header-cta"
-        href="mailto:mistfrontvilla@gmail.com?subject=Mistfront%20Enquiry&body=Hi%20Mistfront%2C%0A%0AI%27d%20like%20to%20enquire%20about%20a%20stay.%20Here%20are%20my%20details%3A%0A%0AEmail%3A%20%0APhone%20number%3A%20%0ATrip%20dates%3A%20%0ANumber%20of%20people%3A%20%0A%0AThank%20you."
-      >
-        Enquire
-      </a>
+      <a class="header-cta" href="#enquire">Enquire</a>
     </header>
 
     <main id="top">
@@ -69,12 +65,7 @@
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#gallery">View the property</a>
-            <a
-              class="btn btn-ghost"
-              href="mailto:mistfrontvilla@gmail.com?subject=Mistfront%20Enquiry&body=Hi%20Mistfront%2C%0A%0AI%27d%20like%20to%20enquire%20about%20a%20stay.%20Here%20are%20my%20details%3A%0A%0AEmail%3A%20%0APhone%20number%3A%20%0ATrip%20dates%3A%20%0ANumber%20of%20people%3A%20%0A%0AThank%20you."
-            >
-              Contact for details
-            </a>
+            <a class="btn btn-ghost" href="#enquire">Contact for details</a>
           </div>
         </div>
       </section>
@@ -217,10 +208,6 @@
             Ettimadai, Coimbatore,<br />
             Tamil Nadu 641105
           </address>
-          <p class="section-copy enquire-note">
-            When you write, please share your email, phone number, trip dates,
-            and number of people.
-          </p>
           <div class="location-actions">
             <a
               class="btn btn-primary"
@@ -230,14 +217,87 @@
             >
               Open in Maps
             </a>
-            <a
-              class="btn btn-ghost"
-              href="mailto:mistfrontvilla@gmail.com?subject=Mistfront%20Enquiry&body=Hi%20Mistfront%2C%0A%0AI%27d%20like%20to%20enquire%20about%20a%20stay.%20Here%20are%20my%20details%3A%0A%0AEmail%3A%20%0APhone%20number%3A%20%0ATrip%20dates%3A%20%0ANumber%20of%20people%3A%20%0A%0AThank%20you."
-            >
-              Contact for details
-            </a>
+            <a class="btn btn-ghost" href="#enquire">Contact for details</a>
           </div>
         </div>
+      </section>
+
+      <section id="enquire" class="section enquire">
+        <div class="section-intro reveal">
+          <p class="eyebrow">Contact for details</p>
+          <h2>Tell us about your stay</h2>
+          <p class="section-copy">
+            Fill in the form below and we will reply at
+            <strong>mistfrontvilla@gmail.com</strong>. Please include your email,
+            phone number, trip dates, and number of people.
+          </p>
+        </div>
+
+        <form
+          class="enquire-form reveal"
+          id="enquire-form"
+          action="https://formsubmit.co/mistfrontvilla@gmail.com"
+          method="POST"
+          data-enquire-form
+        >
+          <input type="hidden" name="_subject" value="Mistfront Enquiry" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="text" name="_honey" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <input type="hidden" name="visitor_latitude" data-geo-lat value="" />
+          <input type="hidden" name="visitor_longitude" data-geo-lng value="" />
+          <input type="hidden" name="visitor_location_accuracy_m" data-geo-accuracy value="" />
+          <input type="hidden" name="visitor_maps_link" data-geo-maps value="" />
+          <input type="hidden" name="visitor_location_status" data-geo-status value="Not captured yet" />
+
+          <div class="form-grid">
+            <label class="form-field">
+              <span>Full name</span>
+              <input type="text" name="name" autocomplete="name" required />
+            </label>
+            <label class="form-field">
+              <span>Email</span>
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
+            <label class="form-field">
+              <span>Phone number</span>
+              <input type="tel" name="phone" autocomplete="tel" required />
+            </label>
+            <label class="form-field">
+              <span>Number of people</span>
+              <input type="number" name="number_of_people" min="1" max="20" required />
+            </label>
+            <label class="form-field form-field-wide">
+              <span>Trip dates</span>
+              <input
+                type="text"
+                name="trip_dates"
+                placeholder="e.g. 12–14 Oct 2026"
+                required
+              />
+            </label>
+            <label class="form-field form-field-wide">
+              <span>Anything else we should know? <em>(optional)</em></span>
+              <textarea name="message" rows="4" placeholder="Arrival time, celebration, special requests…"></textarea>
+            </label>
+          </div>
+
+          <div class="location-capture">
+            <p class="location-status" data-geo-message>
+              We can include your current location in the enquiry to help with planning.
+            </p>
+            <button type="button" class="btn btn-secondary" data-geo-button>
+              Share my location
+            </button>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" data-submit-button>
+              Send enquiry
+            </button>
+            <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+          </div>
+        </form>
       </section>
     </main>
 

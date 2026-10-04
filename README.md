@@ -2,7 +2,7 @@
 
 Static website for the **Mistfront** weekend retreat at the foothills of the Western Ghats.
 
-The site showcases the A-frame cabin, main villa, and pool, plus the KCP Etti Farms address. Enquiries go to `mistfrontvilla@gmail.com`. Personal phone numbers are intentionally omitted from the published site.
+The site showcases the A-frame cabin, main villa, and pool, plus the KCP Etti Farms address. Guests enquire through an on-page form that emails `mistfrontvilla@gmail.com` (including optional visitor location). Property owner phone numbers are intentionally omitted from the published site.
 
 Live site (GitHub Pages): https://navforu.github.io/mistyfront/
 
@@ -90,4 +90,6 @@ Tests verify layout, branding, dynamic gallery generation, the Pages workflow, a
 - Brand: Mistfront
 - Tagline: Where the Mountains Meet the Mist
 - Address: KCP Etti Farms, SF No. 141, Iyyampathi Road, Chinniya Goundan Pudur, Ettimadai, Coimbatore, Tamil Nadu 641105
-- Do not publish phone numbers (or flyer images that contain them) unless owners explicitly ask
+- Do not publish owner phone numbers (or flyer images that contain them) unless owners explicitly ask
+- Enquiry form uses [FormSubmit](https://formsubmit.co/) to email `mistfrontvilla@gmail.com`
+- After the first live submission, confirm the activation email FormSubmit sends to that inbox
