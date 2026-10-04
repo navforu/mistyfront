@@ -66,8 +66,8 @@ class PageContentTests(unittest.TestCase):
             self.assertIn(f'id="{section_id}"', HTML)
 
     def test_assets_and_slideshow(self) -> None:
-        self.assertIn('href="styles.css"', HTML)
-        self.assertIn('src="script.js"', HTML)
+        self.assertRegex(HTML, r'href="styles\.css(?:\?[^"]*)?"')
+        self.assertRegex(HTML, r'src="script\.js(?:\?[^"]*)?"')
         self.assertIn("data-slideshow", HTML)
         self.assertIn("slideshow-stage", HTML)
 

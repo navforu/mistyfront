@@ -63,8 +63,8 @@ describe("page content", () => {
   });
 
   it("wires stylesheet, script, and slideshow shell", () => {
-    assert.match(html(), /href="styles\.css"/);
-    assert.match(html(), /src="script\.js"/);
+    assert.match(html(), /href="styles\.css(?:\?[^"]*)?"/);
+    assert.match(html(), /src="script\.js(?:\?[^"]*)?"/);
     assert.match(html(), /data-slideshow/);
     assert.match(html(), /slideshow-stage/);
   });
