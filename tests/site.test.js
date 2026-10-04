@@ -167,6 +167,7 @@ describe("enquiry client behavior", () => {
     assert.match(js(), /phoneError|phone_full/);
     assert.match(js(), /whatsapp_available/);
     assert.match(js(), /departureOrderError/);
+    assert.match(js(), /validateDatePair/);
     assert.match(
       fs.readFileSync(validationPath, "utf8"),
       /cannot be before the arrival date/

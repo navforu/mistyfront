@@ -210,13 +210,7 @@
         arrivalInput?.value || "",
         departureInput?.value || ""
       );
-      if (
-        orderError &&
-        arrivalInput &&
-        departureInput &&
-        !arrivalInput.classList.contains("is-invalid") &&
-        !departureInput.classList.contains("is-invalid")
-      ) {
+      if (orderError && departureInput) {
         markFieldError(departureInput);
         errors.push({
           field: departureInput,
@@ -238,15 +232,42 @@
     };
 
     const syncDepartureMin = () => {
-      if (!arrivalInput || !departureInput || !arrivalInput.value) return;
-      const minDeparture = arrivalInput.value;
-      departureInput.min = minDeparture;
-      if (departureInput.value && departureInput.value < minDeparture) {
-        departureInput.value = "";
-      }
+      if (!arrivalInput || !departureInput) return;
+      departureInput.min = arrivalInput.value || todayIso();
     };
 
-    arrivalInput?.addEventListener("change", syncDepartureMin);
+    const validateDatePair = ({ announce = false } = {}) => {
+      if (!arrivalInput || !departureInput || !rules) return "";
+
+      syncDepartureMin();
+
+      const arrivalIssue = fieldError(arrivalInput);
+      if (arrivalIssue) markFieldError(arrivalInput);
+      else clearFieldError(arrivalInput);
+
+      let departureIssue = fieldError(departureInput);
+      if (!departureIssue) {
+        departureIssue = rules.departureOrderError(
+          arrivalInput.value || "",
+          departureInput.value || ""
+        );
+      }
+
+      if (departureIssue) markFieldError(departureInput);
+      else clearFieldError(departureInput);
+
+      if (announce && departureIssue) {
+        setFormStatus(departureIssue, "is-error");
+      } else if (
+        announce &&
+        !departureIssue &&
+        formStatus?.textContent?.includes("arrival date")
+      ) {
+        setFormStatus("");
+      }
+
+      return departureIssue || arrivalIssue || "";
+    };
 
     prefixInput?.addEventListener("input", () => {
       restrictPrefixInput();
@@ -259,15 +280,23 @@
 
     requiredFields.forEach((field) => {
       if (field === phoneInput) return;
+      if (field === arrivalInput || field === departureInput) return;
+
       const recheck = () => {
         const error = fieldError(field);
         if (error) markFieldError(field);
         else clearFieldError(field);
-        if (field === arrivalInput) syncDepartureMin();
       };
       field.addEventListener("input", recheck);
       field.addEventListener("change", recheck);
       field.addEventListener("blur", recheck);
+    });
+
+    [arrivalInput, departureInput].forEach((field) => {
+      if (!field) return;
+      field.addEventListener("input", () => validateDatePair({ announce: true }));
+      field.addEventListener("change", () => validateDatePair({ announce: true }));
+      field.addEventListener("blur", () => validateDatePair({ announce: true }));
     });
 
     enquireForm.addEventListener("submit", async (event) => {
