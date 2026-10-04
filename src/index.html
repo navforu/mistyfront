@@ -233,71 +233,96 @@
           </p>
         </div>
 
-        <form
-          class="enquire-form reveal"
-          id="enquire-form"
-          action="https://formsubmit.co/mistfrontvilla@gmail.com"
-          method="POST"
-          data-enquire-form
-        >
-          <input type="hidden" name="_subject" value="Mistfront Enquiry" />
-          <input type="hidden" name="_template" value="table" />
-          <input type="hidden" name="_captcha" value="false" />
-          <input type="text" name="_honey" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
-          <input type="hidden" name="visitor_latitude" data-geo-lat value="" />
-          <input type="hidden" name="visitor_longitude" data-geo-lng value="" />
-          <input type="hidden" name="visitor_location_accuracy_m" data-geo-accuracy value="" />
-          <input type="hidden" name="visitor_maps_link" data-geo-maps value="" />
-          <input type="hidden" name="visitor_location_status" data-geo-status value="Not captured yet" />
+        <div class="enquire-panel reveal">
+          <form
+            class="enquire-form"
+            id="enquire-form"
+            action="https://formsubmit.co/mistfrontvilla@gmail.com"
+            method="POST"
+            data-enquire-form
+          >
+            <input type="hidden" name="_subject" value="Mistfront Enquiry" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input
+              type="text"
+              name="_honey"
+              class="honeypot"
+              hidden
+              tabindex="-1"
+              autocomplete="off"
+              aria-hidden="true"
+            />
+            <input type="hidden" name="visitor_latitude" data-geo-lat value="" />
+            <input type="hidden" name="visitor_longitude" data-geo-lng value="" />
+            <input type="hidden" name="visitor_location_accuracy_m" data-geo-accuracy value="" />
+            <input type="hidden" name="visitor_maps_link" data-geo-maps value="" />
+            <input type="hidden" name="visitor_location_status" data-geo-status value="Not captured yet" />
 
-          <div class="form-grid">
-            <label class="form-field">
-              <span>Full name</span>
-              <input type="text" name="name" autocomplete="name" required />
-            </label>
-            <label class="form-field">
-              <span>Email</span>
-              <input type="email" name="email" autocomplete="email" required />
-            </label>
-            <label class="form-field">
-              <span>Phone number</span>
-              <input type="tel" name="phone" autocomplete="tel" required />
-            </label>
-            <label class="form-field">
-              <span>Number of people</span>
-              <input type="number" name="number_of_people" min="1" max="20" required />
-            </label>
-            <label class="form-field form-field-wide">
-              <span>Trip dates</span>
-              <input
-                type="text"
-                name="trip_dates"
-                placeholder="e.g. 12–14 Oct 2026"
-                required
-              />
-            </label>
-            <label class="form-field form-field-wide">
-              <span>Anything else we should know? <em>(optional)</em></span>
-              <textarea name="message" rows="4" placeholder="Arrival time, celebration, special requests…"></textarea>
-            </label>
-          </div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="enquire-name">Full name</label>
+                <input id="enquire-name" type="text" name="name" autocomplete="name" required />
+              </div>
+              <div class="form-field">
+                <label for="enquire-email">Email</label>
+                <input id="enquire-email" type="email" name="email" autocomplete="email" required />
+              </div>
+              <div class="form-field">
+                <label for="enquire-phone">Phone number</label>
+                <input id="enquire-phone" type="tel" name="phone" autocomplete="tel" required />
+              </div>
+              <div class="form-field">
+                <label for="enquire-people">Number of people</label>
+                <input
+                  id="enquire-people"
+                  type="number"
+                  name="number_of_people"
+                  min="1"
+                  max="20"
+                  required
+                />
+              </div>
+              <div class="form-field form-field-wide">
+                <label for="enquire-dates">Trip dates</label>
+                <input
+                  id="enquire-dates"
+                  type="text"
+                  name="trip_dates"
+                  placeholder="e.g. 12–14 Oct 2026"
+                  required
+                />
+              </div>
+              <div class="form-field form-field-wide">
+                <label for="enquire-message">
+                  Anything else we should know? <span class="optional">(optional)</span>
+                </label>
+                <textarea
+                  id="enquire-message"
+                  name="message"
+                  rows="4"
+                  placeholder="Arrival time, celebration, special requests…"
+                ></textarea>
+              </div>
+            </div>
 
-          <div class="location-capture">
-            <p class="location-status" data-geo-message>
-              We can include your current location in the enquiry to help with planning.
-            </p>
-            <button type="button" class="btn btn-secondary" data-geo-button>
-              Share my location
-            </button>
-          </div>
+            <div class="location-capture">
+              <p class="location-status" data-geo-message>
+                We can include your current location in the enquiry to help with planning.
+              </p>
+              <button type="button" class="btn btn-secondary" data-geo-button>
+                Share my location
+              </button>
+            </div>
 
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary" data-submit-button>
-              Send enquiry
-            </button>
-            <p class="form-status" data-form-status role="status" aria-live="polite"></p>
-          </div>
-        </form>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" data-submit-button>
+                Send enquiry
+              </button>
+              <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+            </div>
+          </form>
+        </div>
       </section>
     </main>
 
