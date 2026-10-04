@@ -39,14 +39,17 @@ describe("project layout", () => {
     assert.ok(fs.existsSync(imagesDir));
   });
 
-  it("includes CI and GitHub Pages workflows that run tests", () => {
+  it("includes CI and GitHub Pages workflows with a visible test job", () => {
     assert.ok(fs.existsSync(deployWorkflowPath));
     assert.ok(fs.existsSync(ciWorkflowPath));
     const deploy = fs.readFileSync(deployWorkflowPath, "utf8");
     const ci = fs.readFileSync(ciWorkflowPath, "utf8");
     assert.match(deploy, /deploy-pages/);
+    assert.match(deploy, /^\s*test:\s*$/m);
+    assert.match(deploy, /needs:\s*test/);
     assert.match(deploy, /npm test|node --test/);
     assert.match(deploy, /site_test\.py|test:py/);
+    assert.match(ci, /^\s*test:\s*$/m);
     assert.match(ci, /npm test|node --test/);
     assert.match(ci, /site_test\.py|test:py/);
   });

@@ -15,7 +15,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  test:
+    name: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -43,6 +44,22 @@ jobs:
       - name: Run Node test suite
         run: npm test
 
+  build:
+    name: build
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generate gallery manifest
+        run: python scripts/generate_gallery.py
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
@@ -52,6 +69,7 @@ jobs:
           path: src
 
   deploy:
+    name: deploy
     needs: build
     runs-on: ubuntu-latest
     environment:

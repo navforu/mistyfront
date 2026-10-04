@@ -64,13 +64,13 @@ Notes:
 
 ## GitHub Pages
 
-Pushing to `main` runs `.github/workflows/deploy-pages.yml`, which:
+Pushing to `main` runs `.github/workflows/deploy-pages.yml` with three jobs:
 
-1. Regenerates `gallery.json`
-2. Runs the full Python and Node test suites
-3. Publishes the contents of `src/` to GitHub Pages
+1. **test** — regenerates `gallery.json` and runs the full Python + Node suites
+2. **build** — packages `src/` for GitHub Pages (only after tests pass)
+3. **deploy** — publishes the site
 
-Every push and pull request also runs `.github/workflows/ci.yml` with the same tests.
+Every push and pull request also runs `.github/workflows/ci.yml`, which shows a **test** job.
 
 One-time repo setting (if Pages is not already using Actions):
 

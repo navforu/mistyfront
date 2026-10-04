@@ -62,8 +62,11 @@ class ProjectLayoutTests(unittest.TestCase):
         deploy = DEPLOY_WORKFLOW.read_text(encoding="utf-8")
         ci = CI_WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("deploy-pages", deploy)
+        self.assertRegex(deploy, r"(?m)^\s*test:\s*$")
+        self.assertRegex(deploy, r"needs:\s*test")
         self.assertTrue("npm test" in deploy or "node --test" in deploy)
         self.assertTrue("site_test.py" in deploy or "test:py" in deploy)
+        self.assertRegex(ci, r"(?m)^\s*test:\s*$")
         self.assertTrue("npm test" in ci or "node --test" in ci)
         self.assertTrue("site_test.py" in ci or "test:py" in ci)
 
