@@ -21,9 +21,20 @@
     return digits || "91";
   };
 
+  const ENQUIRY_INBOX = "mistfrontvilla@gmail.com";
+
   const isValidEmail = (value) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
 
+  const emailError = (value) => {
+    const trimmed = String(value || "").trim();
+    if (!trimmed) return "Please fill in Email.";
+    if (!isValidEmail(trimmed)) return "Please enter a valid email address.";
+    if (trimmed.toLowerCase() === ENQUIRY_INBOX) {
+      return "Please enter your own email address, not the Mistfront inbox.";
+    }
+    return "";
+  };
   const phoneError = (prefixValue, numberValue) => {
     const prefix = digitsOnly(prefixValue);
     if (prefix && !/^\d{1,3}$/.test(prefix)) {
@@ -80,8 +91,7 @@
       case "name":
         return value && String(value).trim() ? "" : "Please fill in Full name.";
       case "email":
-        if (!String(value || "").trim()) return "Please fill in Email.";
-        return isValidEmail(value) ? "" : "Please enter a valid email address.";
+        return emailError(value);
       case "phone":
         return phoneError(options.prefix, value);
       case "number_of_people":
@@ -103,6 +113,8 @@
     digitsOnly,
     normalizePrefix,
     isValidEmail,
+    emailError,
+    ENQUIRY_INBOX,
     phoneError,
     peopleError,
     dateError,

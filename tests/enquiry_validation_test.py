@@ -49,6 +49,12 @@ class EnquiryValidationTests(unittest.TestCase):
         self.assertIn("normalizePrefix", JS)
         self.assertIn("phoneError", JS)
         self.assertIn("buildPhoneFull", JS)
+        self.assertIn("emailError", JS)
+        self.assertIn("mistfrontvilla@gmail.com", JS)
+
+    def test_blocks_mistfront_inbox_as_guest_email(self) -> None:
+        self.assertIn("your own email", JS)
+        self.assertIn("Mistfront inbox", JS)
 
     def test_prefix_defaults_and_max_length(self) -> None:
         self.assertEqual(normalize_prefix(""), "91")

@@ -39,6 +39,14 @@ describe("enquiry validation rules", () => {
   it("validates email, people count, and date order", () => {
     assert.equal(rules.fieldError("email", "guest@example.com"), "");
     assert.match(rules.fieldError("email", "not-an-email"), /valid email/i);
+    assert.match(
+      rules.fieldError("email", "mistfrontvilla@gmail.com"),
+      /your own email|Mistfront inbox/i
+    );
+    assert.match(
+      rules.fieldError("email", "MistfrontVilla@Gmail.com"),
+      /your own email|Mistfront inbox/i
+    );
     assert.equal(rules.fieldError("number_of_people", "8"), "");
     assert.match(rules.fieldError("number_of_people", "0"), /1–20|1-20/i);
     assert.match(rules.fieldError("number_of_people", "21"), /1–20|1-20/i);
