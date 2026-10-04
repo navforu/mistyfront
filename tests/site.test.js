@@ -129,6 +129,10 @@ describe("enquiry form requirements", () => {
     assert.match(html(), /name="departure_date"/);
     assert.match(html(), /name="message"/);
     assert.match(html(), /type="date"/);
+    assert.match(html(), /placeholder="e\.g\. Priya Sharma"/);
+    assert.match(html(), /placeholder="e\.g\. priya\.sharma@email\.com"/);
+    assert.match(html(), /placeholder="e\.g\. 6"/);
+    assert.match(html(), /placeholder="e\.g\. 9876543210"/);
   });
 
   it("splits phone into optional +prefix and local number", () => {

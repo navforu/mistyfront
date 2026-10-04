@@ -128,6 +128,10 @@ class EnquiryFormRequirementTests(unittest.TestCase):
         ):
             self.assertIn(f'name="{name}"', HTML)
         self.assertIn('type="date"', HTML)
+        self.assertIn('placeholder="e.g. Priya Sharma"', HTML)
+        self.assertIn('placeholder="e.g. priya.sharma@email.com"', HTML)
+        self.assertIn('placeholder="e.g. 6"', HTML)
+        self.assertIn('placeholder="e.g. 9876543210"', HTML)
 
     def test_phone_prefix_and_local_number(self) -> None:
         self.assertIn('name="phone_prefix"', HTML)
