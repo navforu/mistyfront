@@ -520,6 +520,10 @@ p {
   font-style: normal;
 }
 
+.enquire-note {
+  margin: 0 0 1.5rem;
+}
+
 .location address {
   display: block;
   margin: 1.5rem 0 1.75rem;

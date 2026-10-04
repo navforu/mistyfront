@@ -76,6 +76,10 @@ class PageContentTests(unittest.TestCase):
         self.assertRegex(HTML, r"Ettimadai")
         self.assertRegex(HTML, r"Coimbatore")
         self.assertRegex(HTML, r"Contact for details")
+        self.assertRegex(HTML, r"mailto:mistfrontvilla@gmail\.com")
+        self.assertRegex(HTML, r"Phone%20number|phone number")
+        self.assertRegex(HTML, r"Trip%20dates|trip dates")
+        self.assertRegex(HTML, r"Number%20of%20people|number of people")
 
 
 class DynamicGalleryTests(unittest.TestCase):

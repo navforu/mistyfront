@@ -74,6 +74,10 @@ describe("page content", () => {
     assert.match(html(), /Ettimadai/i);
     assert.match(html(), /Coimbatore/i);
     assert.match(html(), /Contact for details/i);
+    assert.match(html(), /mailto:mistfrontvilla@gmail\.com/);
+    assert.match(html(), /Phone%20number|phone number/i);
+    assert.match(html(), /Trip%20dates|trip dates/i);
+    assert.match(html(), /Number%20of%20people|number of people/i);
   });
 });
 
