@@ -70,7 +70,7 @@ Pushing to `main` runs `.github/workflows/deploy-pages.yml` with three jobs:
 2. **build** — packages `src/` for GitHub Pages (only after tests pass)
 3. **deploy** — publishes the site
 
-Every push and pull request also runs `.github/workflows/ci.yml`, which shows a **test** job.
+Pull requests and non-`main` branches run `.github/workflows/ci.yml` (**test** only). Pushes to `main` use Deploy GitHub Pages alone so tests are not duplicated.
 
 One-time repo setting (if Pages is not already using Actions):
 
