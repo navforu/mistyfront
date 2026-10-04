@@ -23,8 +23,9 @@ describe("enquiry validation rules", () => {
 
   it("rejects invalid phone numbers and oversized prefixes", () => {
     assert.match(rules.phoneError("91", "asdf"), /Phone number/i);
-    assert.match(rules.phoneError("91", "1234567890"), /valid 10-digit/i);
-    assert.match(rules.phoneError("91", "98765"), /valid 10-digit/i);
+    assert.match(rules.phoneError("91", "1234567890"), /starting with 6, 7, 8, or 9/i);
+    assert.match(rules.phoneError("91", "4321432143"), /starting with 6, 7, 8, or 9/i);
+    assert.match(rules.phoneError("91", "98765"), /starting with 6, 7, 8, or 9/i);
     assert.match(rules.phoneError("1", "12"), /6–12 digits|6-12 digits/i);
     assert.match(rules.phoneError("9999", "9876543210"), /up to 3 digits/i);
     assert.match(rules.phoneError("91", ""), /Phone number/i);

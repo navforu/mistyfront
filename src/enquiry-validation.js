@@ -47,7 +47,7 @@
     const code = normalizePrefix(prefixValue);
     if (code === "91") {
       if (!/^[6-9]\d{9}$/.test(number)) {
-        return "For +91, enter a valid 10-digit mobile number.";
+        return "For +91, enter a 10-digit mobile number starting with 6, 7, 8, or 9.";
       }
       return "";
     }

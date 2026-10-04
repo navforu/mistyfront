@@ -31,7 +31,7 @@ def phone_error(prefix_value: str, number_value: str) -> str:
     code = normalize_prefix(prefix_value)
     if code == "91":
         if not re.fullmatch(r"[6-9]\d{9}", number):
-            return "For +91, enter a valid 10-digit mobile number."
+            return "For +91, enter a 10-digit mobile number starting with 6, 7, 8, or 9."
         return ""
 
     if not re.fullmatch(r"\d{6,12}", number):
@@ -65,7 +65,8 @@ class EnquiryValidationTests(unittest.TestCase):
         self.assertEqual(phone_error("91", "9876543210"), "")
         self.assertEqual(phone_error("1", "4401234123"), "")
         self.assertIn("Phone number", phone_error("91", "asdf"))
-        self.assertIn("valid 10-digit", phone_error("91", "1234567890"))
+        self.assertIn("starting with 6, 7, 8, or 9", phone_error("91", "1234567890"))
+        self.assertIn("starting with 6, 7, 8, or 9", phone_error("91", "4321432143"))
         self.assertIn("6–12 digits", phone_error("1", "12"))
         self.assertIn("up to 3 digits", phone_error("9999", "9876543210"))
 
