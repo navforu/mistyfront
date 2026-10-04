@@ -622,51 +622,73 @@ p {
 
 .enquire-form .phone-group {
   display: grid;
-  grid-template-columns: 5.5rem minmax(0, 1fr);
+  grid-template-columns: 5.75rem minmax(0, 1fr);
   gap: 0.65rem;
+  align-items: center;
   width: 100%;
   min-width: 0;
 }
 
-.enquire-form .phone-prefix {
-  display: grid;
-  grid-template-columns: auto 1fr;
+.enquire-form .phone-prefix-box {
+  display: flex;
   align-items: center;
-  gap: 0.2rem;
-  margin: 0;
+  width: 100%;
+  min-height: 3.05rem;
+  box-sizing: border-box;
+  border: 1px solid rgba(22, 53, 40, 0.22);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0 0.55rem;
 }
 
 .enquire-form .phone-plus {
+  flex: 0 0 auto;
   font-weight: 600;
   color: var(--forest);
+  line-height: 1;
 }
 
 .enquire-form .phone-prefix-input {
-  text-align: center;
-  padding-left: 0.45rem;
-  padding-right: 0.45rem;
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  padding: 0.85rem 0.15rem;
+  text-align: left;
 }
 
+.enquire-form .phone-prefix-box:focus-within {
+  outline: 2px solid rgba(47, 106, 77, 0.35);
+  outline-offset: 1px;
+  border-color: var(--forest-soft);
+}
+
+.enquire-form .phone-group.is-invalid .phone-prefix-box,
 .enquire-form .phone-group.is-invalid .form-control {
   border-color: #c62828;
   background: #fff7f7;
 }
 
-.enquire-form .form-check {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.65rem;
-  margin: 0;
+.enquire-form .form-spacer {
+  display: block;
+  width: 1px;
+  height: 1px;
 }
 
-.enquire-form .form-check-wide {
-  grid-column: 1 / -1;
+.enquire-form .form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 0;
+  min-height: 1.5rem;
 }
 
 .enquire-form .form-check input[type="checkbox"] {
   width: 1.1rem;
   height: 1.1rem;
-  margin-top: 0.15rem;
   flex: 0 0 auto;
   accent-color: var(--forest);
 }
@@ -725,9 +747,13 @@ p {
 
   .enquire-form .form-control,
   .enquire-form .form-control-area,
-  .enquire-form .form-check-wide,
-  .enquire-form .phone-group {
+  .enquire-form .phone-group,
+  .enquire-form .form-check {
     grid-column: 1;
+  }
+
+  .enquire-form .form-spacer {
+    display: none;
   }
 }
 
