@@ -84,7 +84,8 @@ class PageContentTests(unittest.TestCase):
         self.assertIn('name="phone"', HTML)
         self.assertIn('name="trip_dates"', HTML)
         self.assertIn('name="number_of_people"', HTML)
-        self.assertIn("data-geo-lat", HTML)
+        self.assertNotRegex(HTML, r"Share my location")
+        self.assertNotIn("data-geo-button", HTML)
 
 
 class DynamicGalleryTests(unittest.TestCase):
@@ -125,8 +126,7 @@ class ClientAssetTests(unittest.TestCase):
 
     def test_enquiry_form_script(self) -> None:
         self.assertIn("formsubmit.co/ajax/mistfrontvilla@gmail.com", JS)
-        self.assertIn("geolocation", JS)
-        self.assertIn("getCurrentPosition", JS)
+        self.assertNotIn("getCurrentPosition", JS)
 
     def test_brand_css(self) -> None:
         self.assertIn("--forest", CSS)

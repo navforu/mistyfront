@@ -29,7 +29,7 @@ Do not leave production HTML/CSS/JS at the repo root. New pages, styles, scripts
 
 - **Never publish** personal phone numbers unless the owner explicitly requests it.
 - The KCP Etti Farms address, Maps link, and `mistfrontvilla@gmail.com` enquiry email are allowed.
-- **Contact for details** must use the on-page enquiry form (not mailto). The form collects name, email, phone, trip dates, number of people, optional message, and optional visitor geolocation, then emails via FormSubmit.
+- **Contact for details** must use the on-page enquiry form (not mailto). The form collects name, email, phone, trip dates, number of people, and optional message, then emails via FormSubmit.
 - Keep the Mistfront brand and tagline (“Where the Mountains Meet the Mist”) prominent in the first viewport.
 - Do not deploy flyer images that embed phone numbers.
 

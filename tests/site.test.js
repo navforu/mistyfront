@@ -82,7 +82,8 @@ describe("page content", () => {
     assert.match(html(), /name="phone"/);
     assert.match(html(), /name="trip_dates"/);
     assert.match(html(), /name="number_of_people"/);
-    assert.match(html(), /visitor_latitude|data-geo-lat/);
+    assert.doesNotMatch(html(), /Share my location/i);
+    assert.doesNotMatch(html(), /data-geo-button/);
   });
 });
 
@@ -133,10 +134,9 @@ describe("client scripts and styles", () => {
     assert.match(js(), /slideshow-dot|goTo/);
   });
 
-  it("submits the enquiry form and captures geolocation", () => {
+  it("submits the enquiry form by email gateway", () => {
     assert.match(js(), /formsubmit\.co\/ajax\/mistfrontvilla@gmail\.com/);
-    assert.match(js(), /geolocation/i);
-    assert.match(js(), /getCurrentPosition/);
+    assert.doesNotMatch(js(), /getCurrentPosition/);
   });
 
   it("defines brand-facing CSS variables", () => {

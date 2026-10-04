@@ -116,23 +116,9 @@
 
   const enquireForm = document.querySelector("[data-enquire-form]");
   if (enquireForm) {
-    const geoButton = enquireForm.querySelector("[data-geo-button]");
-    const geoMessage = enquireForm.querySelector("[data-geo-message]");
-    const geoLat = enquireForm.querySelector("[data-geo-lat]");
-    const geoLng = enquireForm.querySelector("[data-geo-lng]");
-    const geoAccuracy = enquireForm.querySelector("[data-geo-accuracy]");
-    const geoMaps = enquireForm.querySelector("[data-geo-maps]");
-    const geoStatus = enquireForm.querySelector("[data-geo-status]");
     const formStatus = enquireForm.querySelector("[data-form-status]");
     const submitButton = enquireForm.querySelector("[data-submit-button]");
     const endpoint = "https://formsubmit.co/ajax/mistfrontvilla@gmail.com";
-
-    const setGeoMessage = (text, state) => {
-      if (!geoMessage) return;
-      geoMessage.textContent = text;
-      geoMessage.classList.remove("is-success", "is-error");
-      if (state) geoMessage.classList.add(state);
-    };
 
     const setFormStatus = (text, state) => {
       if (!formStatus) return;
@@ -140,58 +126,6 @@
       formStatus.classList.remove("is-success", "is-error");
       if (state) formStatus.classList.add(state);
     };
-
-    const captureLocation = () => {
-      if (!navigator.geolocation) {
-        if (geoStatus) geoStatus.value = "Geolocation not supported by this browser";
-        setGeoMessage("Location is not supported in this browser. You can still send the enquiry.", "is-error");
-        return;
-      }
-
-      setGeoMessage("Requesting your location…");
-      if (geoButton) geoButton.disabled = true;
-
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude, accuracy } = position.coords;
-          const mapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
-
-          if (geoLat) geoLat.value = String(latitude);
-          if (geoLng) geoLng.value = String(longitude);
-          if (geoAccuracy) geoAccuracy.value = String(Math.round(accuracy));
-          if (geoMaps) geoMaps.value = mapsLink;
-          if (geoStatus) geoStatus.value = "Captured";
-
-          setGeoMessage(
-            `Location added (±${Math.round(accuracy)} m). It will be included in your enquiry email.`,
-            "is-success"
-          );
-          if (geoButton) {
-            geoButton.disabled = false;
-            geoButton.textContent = "Update my location";
-          }
-        },
-        (error) => {
-          const reason =
-            error.code === error.PERMISSION_DENIED
-              ? "Location permission denied"
-              : error.code === error.POSITION_UNAVAILABLE
-                ? "Location unavailable"
-                : "Location request timed out";
-
-          if (geoStatus) geoStatus.value = reason;
-          setGeoMessage(`${reason}. You can still send the enquiry without location.`, "is-error");
-          if (geoButton) geoButton.disabled = false;
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 12000,
-          maximumAge: 60000,
-        }
-      );
-    };
-
-    geoButton?.addEventListener("click", captureLocation);
 
     enquireForm.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -217,13 +151,6 @@
         }
 
         enquireForm.reset();
-        if (geoLat) geoLat.value = "";
-        if (geoLng) geoLng.value = "";
-        if (geoAccuracy) geoAccuracy.value = "";
-        if (geoMaps) geoMaps.value = "";
-        if (geoStatus) geoStatus.value = "Not captured yet";
-        setGeoMessage("We can include your current location in the enquiry to help with planning.");
-        if (geoButton) geoButton.textContent = "Share my location";
         setFormStatus("Thanks — your enquiry was sent. We will reply by email soon.", "is-success");
       } catch (error) {
         console.error(error);

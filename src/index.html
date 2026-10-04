@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Figtree:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=3" />
   </head>
   <body>
     <header class="site-header">
@@ -253,66 +253,79 @@
               autocomplete="off"
               aria-hidden="true"
             />
-            <input type="hidden" name="visitor_latitude" data-geo-lat value="" />
-            <input type="hidden" name="visitor_longitude" data-geo-lng value="" />
-            <input type="hidden" name="visitor_location_accuracy_m" data-geo-accuracy value="" />
-            <input type="hidden" name="visitor_maps_link" data-geo-maps value="" />
-            <input type="hidden" name="visitor_location_status" data-geo-status value="Not captured yet" />
-
             <div class="form-grid">
-              <div class="form-field">
-                <label for="enquire-name">Full name</label>
-                <input id="enquire-name" type="text" name="name" autocomplete="name" required />
-              </div>
-              <div class="form-field">
-                <label for="enquire-email">Email</label>
-                <input id="enquire-email" type="email" name="email" autocomplete="email" required />
-              </div>
-              <div class="form-field">
-                <label for="enquire-phone">Phone number</label>
-                <input id="enquire-phone" type="tel" name="phone" autocomplete="tel" required />
-              </div>
-              <div class="form-field">
-                <label for="enquire-people">Number of people</label>
-                <input
-                  id="enquire-people"
-                  type="number"
-                  name="number_of_people"
-                  min="1"
-                  max="20"
-                  required
-                />
-              </div>
-              <div class="form-field form-field-wide">
-                <label for="enquire-dates">Trip dates</label>
-                <input
-                  id="enquire-dates"
-                  type="text"
-                  name="trip_dates"
-                  placeholder="e.g. 12–14 Oct 2026"
-                  required
-                />
-              </div>
-              <div class="form-field form-field-wide">
-                <label for="enquire-message">
-                  Anything else we should know? <span class="optional">(optional)</span>
-                </label>
-                <textarea
-                  id="enquire-message"
-                  name="message"
-                  rows="4"
-                  placeholder="Arrival time, celebration, special requests…"
-                ></textarea>
-              </div>
-            </div>
+              <label class="form-label" for="enquire-name">Full name</label>
+              <input
+                class="form-control"
+                id="enquire-name"
+                type="text"
+                name="name"
+                autocomplete="name"
+                maxlength="80"
+                size="40"
+                required
+              />
 
-            <div class="location-capture">
-              <p class="location-status" data-geo-message>
-                We can include your current location in the enquiry to help with planning.
-              </p>
-              <button type="button" class="btn btn-secondary" data-geo-button>
-                Share my location
-              </button>
+              <label class="form-label" for="enquire-email">Email</label>
+              <input
+                class="form-control"
+                id="enquire-email"
+                type="email"
+                name="email"
+                autocomplete="email"
+                maxlength="80"
+                size="40"
+                required
+              />
+
+              <label class="form-label" for="enquire-phone">Phone number</label>
+              <input
+                class="form-control"
+                id="enquire-phone"
+                type="tel"
+                name="phone"
+                autocomplete="tel"
+                maxlength="80"
+                size="40"
+                required
+              />
+
+              <label class="form-label" for="enquire-people">Number of people</label>
+              <input
+                class="form-control"
+                id="enquire-people"
+                type="text"
+                inputmode="numeric"
+                name="number_of_people"
+                maxlength="80"
+                size="40"
+                pattern="[0-9]*"
+                required
+              />
+
+              <label class="form-label" for="enquire-dates">Trip dates</label>
+              <input
+                class="form-control"
+                id="enquire-dates"
+                type="text"
+                name="trip_dates"
+                placeholder="e.g. 12–14 Oct 2026"
+                maxlength="80"
+                size="40"
+                required
+              />
+
+              <label class="form-label form-label-top" for="enquire-message">
+                Anything else we should know? <span class="optional">(optional)</span>
+              </label>
+              <textarea
+                class="form-control form-control-area"
+                id="enquire-message"
+                name="message"
+                rows="4"
+                maxlength="1000"
+                placeholder="Arrival time, celebration, special requests…"
+              ></textarea>
             </div>
 
             <div class="form-actions">
@@ -343,6 +356,6 @@
       <p>Where the mountains meet the mist.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=3"></script>
   </body>
 </html>

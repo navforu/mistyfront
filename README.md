@@ -2,7 +2,7 @@
 
 Static website for the **Mistfront** weekend retreat at the foothills of the Western Ghats.
 
-The site showcases the A-frame cabin, main villa, and pool, plus the KCP Etti Farms address. Guests enquire through an on-page form that emails `mistfrontvilla@gmail.com` (including optional visitor location). Property owner phone numbers are intentionally omitted from the published site.
+The site showcases the A-frame cabin, main villa, and pool, plus the KCP Etti Farms address. Guests enquire through an on-page form that emails `mistfrontvilla@gmail.com`. Property owner phone numbers are intentionally omitted from the published site.
 
 Live site (GitHub Pages): https://navforu.github.io/mistyfront/
 
