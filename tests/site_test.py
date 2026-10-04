@@ -13,22 +13,10 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 WORKFLOW = ROOT / ".github" / "workflows" / "deploy-pages.yml"
 
-PERSONAL_INFO_PATTERNS = [
+PHONE_PATTERNS = [
     r"9894748313",
     r"9600418844",
-    r"10000\s*/\s*night",
-    r"Rs\.?\s*10000",
-    r"₹\s*10,?000",
-    r"KCP\s*Etti\s*Farms",
-    r"Iyyampathi",
-    r"Chinniya\s*Goundan\s*Pudur",
-    r"Ettimadai",
-    r"Coimbatore",
-    r"641105",
-    r"SF\s*No\.?\s*141",
-    r"google\.com/maps",
     r"tel:",
-    r"mailto:",
 ]
 
 
@@ -74,7 +62,7 @@ class PageContentTests(unittest.TestCase):
         self.assertRegex(HTML, r"Where the Mountains Meet the Mist")
 
     def test_core_sections(self) -> None:
-        for section_id in ("highlights", "gallery", "stay", "enquire"):
+        for section_id in ("highlights", "gallery", "stay", "location"):
             self.assertIn(f'id="{section_id}"', HTML)
 
     def test_assets_and_slideshow(self) -> None:
@@ -83,9 +71,11 @@ class PageContentTests(unittest.TestCase):
         self.assertIn("data-slideshow", HTML)
         self.assertIn("slideshow-stage", HTML)
 
-    def test_enquiry_cta(self) -> None:
+    def test_location_and_enquiry_cta(self) -> None:
+        self.assertRegex(HTML, r"KCP Etti Farms")
+        self.assertRegex(HTML, r"Ettimadai")
+        self.assertRegex(HTML, r"Coimbatore")
         self.assertRegex(HTML, r"Contact for details")
-        self.assertRegex(HTML, r"Enquire")
 
 
 class DynamicGalleryTests(unittest.TestCase):
@@ -103,7 +93,7 @@ class DynamicGalleryTests(unittest.TestCase):
 
 
 class PrivacyTests(unittest.TestCase):
-    def test_sensitive_details_are_hidden(self) -> None:
+    def test_phone_numbers_are_hidden(self) -> None:
         sources = {
             "index.html": HTML,
             "styles.css": CSS,
@@ -111,7 +101,7 @@ class PrivacyTests(unittest.TestCase):
             "gallery.json": GALLERY_TEXT,
         }
         for label, content in sources.items():
-            for pattern in PERSONAL_INFO_PATTERNS:
+            for pattern in PHONE_PATTERNS:
                 self.assertIsNone(
                     re.search(pattern, content, flags=re.IGNORECASE),
                     f"{label} unexpectedly matches {pattern}",

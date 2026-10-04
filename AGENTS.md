@@ -27,10 +27,11 @@ Do not leave production HTML/CSS/JS at the repo root. New pages, styles, scripts
 
 ## Non-negotiable content rules
 
-- **Never publish** phone numbers, street address, map links to a private address, email addresses, or nightly rates unless the owner explicitly requests it.
-- Prefer a generic **Contact for details** / **Enquire** CTA with no personal channels.
+- **Never publish** phone numbers unless the owner explicitly requests it.
+- The KCP Etti Farms address and Maps link are allowed on the site.
+- Prefer **Contact for details** instead of phone numbers for enquiry.
 - Keep the Mistfront brand and tagline (“Where the Mountains Meet the Mist”) prominent in the first viewport.
-- Do not deploy flyer images that embed contact or pricing details.
+- Do not deploy flyer images that embed phone numbers.
 
 ## Design constraints
 

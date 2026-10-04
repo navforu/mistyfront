@@ -13,23 +13,7 @@ const galleryPath = path.join(srcDir, "gallery.json");
 const imagesDir = path.join(srcDir, "images");
 const workflowPath = path.join(root, ".github", "workflows", "deploy-pages.yml");
 
-const PERSONAL_INFO_PATTERNS = [
-  /9894748313/,
-  /9600418844/,
-  /10000\s*\/\s*night/i,
-  /Rs\.?\s*10000/i,
-  /₹\s*10,?000/i,
-  /KCP\s*Etti\s*Farms/i,
-  /Iyyampathi/i,
-  /Chinniya\s*Goundan\s*Pudur/i,
-  /Ettimadai/i,
-  /Coimbatore/i,
-  /641105/,
-  /SF\s*No\.?\s*141/i,
-  /google\.com\/maps/i,
-  /tel:/i,
-  /mailto:/i,
-];
+const PHONE_PATTERNS = [/9894748313/, /9600418844/, /tel:/i];
 
 before(() => {
   execFileSync("python", [path.join(root, "scripts", "generate_gallery.py")], {
@@ -73,7 +57,7 @@ describe("page content", () => {
   });
 
   it("includes the core sections", () => {
-    for (const id of ["highlights", "gallery", "stay", "enquire"]) {
+    for (const id of ["highlights", "gallery", "stay", "location"]) {
       assert.match(html(), new RegExp(`id="${id}"`));
     }
   });
@@ -85,9 +69,11 @@ describe("page content", () => {
     assert.match(html(), /slideshow-stage/);
   });
 
-  it("keeps enquiry generic without contact channels", () => {
+  it("shows the property address and enquiry CTA", () => {
+    assert.match(html(), /KCP Etti Farms/i);
+    assert.match(html(), /Ettimadai/i);
+    assert.match(html(), /Coimbatore/i);
     assert.match(html(), /Contact for details/i);
-    assert.match(html(), /Enquire/i);
   });
 });
 
@@ -114,7 +100,7 @@ describe("privacy constraints", () => {
   const labels = ["index.html", "styles.css", "script.js", "gallery.json"];
 
   for (const label of labels) {
-    it(`omits personal contact and location details from ${label}`, () => {
+    it(`omits phone numbers from ${label}`, () => {
       const content =
         label === "index.html"
           ? html()
@@ -124,7 +110,7 @@ describe("privacy constraints", () => {
               ? js()
               : fs.readFileSync(galleryPath, "utf8");
 
-      for (const pattern of PERSONAL_INFO_PATTERNS) {
+      for (const pattern of PHONE_PATTERNS) {
         assert.doesNotMatch(content, pattern);
       }
     });
