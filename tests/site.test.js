@@ -84,6 +84,8 @@ describe("page content", () => {
     assert.match(html(), /name="number_of_people"/);
     assert.doesNotMatch(html(), /Share my location/i);
     assert.doesNotMatch(html(), /data-geo-button/);
+    assert.match(html(), /class="required"/);
+    assert.match(html(), /data-required-label="Full name"/);
   });
 });
 
@@ -137,6 +139,7 @@ describe("client scripts and styles", () => {
   it("submits the enquiry form by email gateway", () => {
     assert.match(js(), /formsubmit\.co\/ajax\/mistfrontvilla@gmail\.com/);
     assert.doesNotMatch(js(), /getCurrentPosition/);
+    assert.match(js(), /validateRequiredFields|Please fill in/);
   });
 
   it("defines brand-facing CSS variables", () => {

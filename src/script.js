@@ -118,6 +118,9 @@
   if (enquireForm) {
     const formStatus = enquireForm.querySelector("[data-form-status]");
     const submitButton = enquireForm.querySelector("[data-submit-button]");
+    const requiredFields = Array.from(
+      enquireForm.querySelectorAll("[data-required-label]")
+    );
     const endpoint = "https://formsubmit.co/ajax/mistfrontvilla@gmail.com";
 
     const setFormStatus = (text, state) => {
@@ -127,8 +130,66 @@
       if (state) formStatus.classList.add(state);
     };
 
+    const clearFieldError = (field) => {
+      field.classList.remove("is-invalid");
+      field.removeAttribute("aria-invalid");
+    };
+
+    const markFieldError = (field) => {
+      field.classList.add("is-invalid");
+      field.setAttribute("aria-invalid", "true");
+    };
+
+    const isFilled = (field) => {
+      const value = field.value.trim();
+      if (!value) return false;
+      if (field.type === "email") {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      }
+      if (field.name === "number_of_people") {
+        return /^[1-9]\d*$/.test(value);
+      }
+      return true;
+    };
+
+    const validateRequiredFields = () => {
+      const missing = [];
+
+      requiredFields.forEach((field) => {
+        clearFieldError(field);
+        if (!isFilled(field)) {
+          markFieldError(field);
+          missing.push(field.dataset.requiredLabel || field.name);
+        }
+      });
+
+      return missing;
+    };
+
+    requiredFields.forEach((field) => {
+      field.addEventListener("input", () => {
+        if (isFilled(field)) clearFieldError(field);
+      });
+      field.addEventListener("blur", () => {
+        if (!isFilled(field)) markFieldError(field);
+        else clearFieldError(field);
+      });
+    });
+
     enquireForm.addEventListener("submit", async (event) => {
       event.preventDefault();
+
+      const missing = validateRequiredFields();
+      if (missing.length) {
+        const list =
+          missing.length === 1
+            ? missing[0]
+            : `${missing.slice(0, -1).join(", ")}, and ${missing[missing.length - 1]}`;
+        setFormStatus(`Please fill in ${list} before sending your enquiry.`, "is-error");
+        enquireForm.querySelector(`[data-required-label="${missing[0]}"]`)?.focus();
+        return;
+      }
+
       setFormStatus("Sending your enquiry…");
       if (submitButton) submitButton.disabled = true;
 
@@ -151,6 +212,7 @@
         }
 
         enquireForm.reset();
+        requiredFields.forEach(clearFieldError);
         setFormStatus("Thanks — your enquiry was sent. We will reply by email soon.", "is-success");
       } catch (error) {
         console.error(error);

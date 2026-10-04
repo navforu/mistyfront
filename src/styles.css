@@ -543,9 +543,21 @@ p {
   box-shadow: var(--shadow-soft);
 }
 
+.enquire-form .form-legend {
+  margin: 0 0 1.1rem;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.enquire-form .required {
+  color: #c62828;
+  font-weight: 700;
+  margin-left: 0.15rem;
+}
+
 .enquire-form .form-grid {
   display: grid;
-  grid-template-columns: 10.5rem minmax(16rem, 1fr);
+  grid-template-columns: 12rem minmax(16rem, 1fr);
   column-gap: 1.25rem;
   row-gap: 1.1rem;
   align-items: center;
@@ -596,6 +608,16 @@ p {
   outline: 2px solid rgba(47, 106, 77, 0.35);
   outline-offset: 1px;
   border-color: var(--forest-soft);
+}
+
+.enquire-form .form-control.is-invalid {
+  border-color: #c62828;
+  background: #fff7f7;
+}
+
+.enquire-form .form-control.is-invalid:focus {
+  outline-color: rgba(198, 40, 40, 0.35);
+  border-color: #c62828;
 }
 
 .enquire-form .honeypot,

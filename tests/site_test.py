@@ -86,6 +86,8 @@ class PageContentTests(unittest.TestCase):
         self.assertIn('name="number_of_people"', HTML)
         self.assertNotRegex(HTML, r"Share my location")
         self.assertNotIn("data-geo-button", HTML)
+        self.assertIn('class="required"', HTML)
+        self.assertIn('data-required-label="Full name"', HTML)
 
 
 class DynamicGalleryTests(unittest.TestCase):
@@ -127,6 +129,7 @@ class ClientAssetTests(unittest.TestCase):
     def test_enquiry_form_script(self) -> None:
         self.assertIn("formsubmit.co/ajax/mistfrontvilla@gmail.com", JS)
         self.assertNotIn("getCurrentPosition", JS)
+        self.assertTrue("validateRequiredFields" in JS or "Please fill in" in JS)
 
     def test_brand_css(self) -> None:
         self.assertIn("--forest", CSS)

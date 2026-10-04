@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Figtree:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=3" />
+    <link rel="stylesheet" href="styles.css?v=4" />
   </head>
   <body>
     <header class="site-header">
@@ -253,8 +253,14 @@
               autocomplete="off"
               aria-hidden="true"
             />
+            <p class="form-legend">
+              Fields marked with <span class="required" aria-hidden="true">*</span> are required.
+            </p>
+
             <div class="form-grid">
-              <label class="form-label" for="enquire-name">Full name</label>
+              <label class="form-label" for="enquire-name">
+                Full name <span class="required" aria-hidden="true">*</span>
+              </label>
               <input
                 class="form-control"
                 id="enquire-name"
@@ -264,9 +270,12 @@
                 maxlength="80"
                 size="40"
                 required
+                data-required-label="Full name"
               />
 
-              <label class="form-label" for="enquire-email">Email</label>
+              <label class="form-label" for="enquire-email">
+                Email <span class="required" aria-hidden="true">*</span>
+              </label>
               <input
                 class="form-control"
                 id="enquire-email"
@@ -276,9 +285,12 @@
                 maxlength="80"
                 size="40"
                 required
+                data-required-label="Email"
               />
 
-              <label class="form-label" for="enquire-phone">Phone number</label>
+              <label class="form-label" for="enquire-phone">
+                Phone number <span class="required" aria-hidden="true">*</span>
+              </label>
               <input
                 class="form-control"
                 id="enquire-phone"
@@ -288,9 +300,12 @@
                 maxlength="80"
                 size="40"
                 required
+                data-required-label="Phone number"
               />
 
-              <label class="form-label" for="enquire-people">Number of people</label>
+              <label class="form-label" for="enquire-people">
+                Number of people <span class="required" aria-hidden="true">*</span>
+              </label>
               <input
                 class="form-control"
                 id="enquire-people"
@@ -299,11 +314,14 @@
                 name="number_of_people"
                 maxlength="80"
                 size="40"
-                pattern="[0-9]*"
+                pattern="[0-9]+"
                 required
+                data-required-label="Number of people"
               />
 
-              <label class="form-label" for="enquire-dates">Trip dates</label>
+              <label class="form-label" for="enquire-dates">
+                Trip dates <span class="required" aria-hidden="true">*</span>
+              </label>
               <input
                 class="form-control"
                 id="enquire-dates"
@@ -313,6 +331,7 @@
                 maxlength="80"
                 size="40"
                 required
+                data-required-label="Trip dates"
               />
 
               <label class="form-label form-label-top" for="enquire-message">
@@ -356,6 +375,6 @@
       <p>Where the mountains meet the mist.</p>
     </footer>
 
-    <script src="script.js?v=3"></script>
+    <script src="script.js?v=4"></script>
   </body>
 </html>
