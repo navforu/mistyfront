@@ -80,6 +80,8 @@ describe("page content", () => {
     assert.match(html(), /formsubmit\.co/);
     assert.match(html(), /name="email"/);
     assert.match(html(), /name="phone"/);
+    assert.match(html(), /name="phone_prefix"/);
+    assert.match(html(), /whatsapp_available|WhatsApp/);
     assert.match(html(), /name="arrival_date"/);
     assert.match(html(), /name="departure_date"/);
     assert.match(html(), /name="number_of_people"/);
@@ -141,7 +143,8 @@ describe("client scripts and styles", () => {
   it("submits the enquiry form by email gateway", () => {
     assert.match(js(), /formsubmit\.co\/ajax\/mistfrontvilla@gmail\.com/);
     assert.doesNotMatch(js(), /getCurrentPosition/);
-    assert.match(js(), /isValidPhone|valid 10-digit/);
+    assert.match(js(), /normalizedPrefix|phone_full/);
+    assert.match(js(), /whatsapp_available/);
     assert.match(js(), /arrival_date|Departure date must be after/);
   });
 

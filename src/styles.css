@@ -620,6 +620,64 @@ p {
   border-color: #c62828;
 }
 
+.enquire-form .phone-group {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: 0.65rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.enquire-form .phone-prefix {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.2rem;
+  margin: 0;
+}
+
+.enquire-form .phone-plus {
+  font-weight: 600;
+  color: var(--forest);
+}
+
+.enquire-form .phone-prefix-input {
+  text-align: center;
+  padding-left: 0.45rem;
+  padding-right: 0.45rem;
+}
+
+.enquire-form .phone-group.is-invalid .form-control {
+  border-color: #c62828;
+  background: #fff7f7;
+}
+
+.enquire-form .form-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  margin: 0;
+}
+
+.enquire-form .form-check-wide {
+  grid-column: 1 / -1;
+}
+
+.enquire-form .form-check input[type="checkbox"] {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 0.15rem;
+  flex: 0 0 auto;
+  accent-color: var(--forest);
+}
+
+.enquire-form .form-check label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
 .enquire-form .honeypot,
 .enquire-form input.honeypot {
   display: none !important;
@@ -666,7 +724,9 @@ p {
   }
 
   .enquire-form .form-control,
-  .enquire-form .form-control-area {
+  .enquire-form .form-control-area,
+  .enquire-form .form-check-wide,
+  .enquire-form .phone-group {
     grid-column: 1;
   }
 }

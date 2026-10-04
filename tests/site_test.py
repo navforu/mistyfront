@@ -82,6 +82,8 @@ class PageContentTests(unittest.TestCase):
         self.assertIn("formsubmit.co", HTML)
         self.assertIn('name="email"', HTML)
         self.assertIn('name="phone"', HTML)
+        self.assertIn('name="phone_prefix"', HTML)
+        self.assertRegex(HTML, r"whatsapp_available|WhatsApp")
         self.assertIn('name="arrival_date"', HTML)
         self.assertIn('name="departure_date"', HTML)
         self.assertIn('name="number_of_people"', HTML)
@@ -131,7 +133,8 @@ class ClientAssetTests(unittest.TestCase):
     def test_enquiry_form_script(self) -> None:
         self.assertIn("formsubmit.co/ajax/mistfrontvilla@gmail.com", JS)
         self.assertNotIn("getCurrentPosition", JS)
-        self.assertTrue("isValidPhone" in JS or "valid 10-digit" in JS)
+        self.assertTrue("normalizedPrefix" in JS or "phone_full" in JS)
+        self.assertIn("whatsapp_available", JS)
         self.assertTrue("arrival_date" in JS or "Departure date must be after" in JS)
 
     def test_brand_css(self) -> None:

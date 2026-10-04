@@ -123,6 +123,10 @@
     );
     const arrivalInput = enquireForm.querySelector("#enquire-arrival");
     const departureInput = enquireForm.querySelector("#enquire-departure");
+    const prefixInput = enquireForm.querySelector("[data-phone-prefix]");
+    const phoneInput = enquireForm.querySelector("[data-phone-number]");
+    const phoneGroup = enquireForm.querySelector(".phone-group");
+    const whatsappInput = enquireForm.querySelector("[data-whatsapp]");
     const endpoint = "https://formsubmit.co/ajax/mistfrontvilla@gmail.com";
 
     const todayIso = () => {
@@ -152,14 +156,39 @@
       field.setAttribute("aria-invalid", "true");
     };
 
-    const isValidPhone = (value) => {
-      const digits = value.replace(/\D/g, "");
-      if (/^91\d{10}$/.test(digits)) return true;
-      if (/^0\d{10}$/.test(digits)) return true;
-      return /^[6-9]\d{9}$/.test(digits);
+    const digitsOnly = (value) => value.replace(/\D/g, "");
+
+    const normalizedPrefix = () => {
+      const digits = digitsOnly(prefixInput?.value || "");
+      return digits.slice(0, 3) || "91";
+    };
+
+    const phoneError = () => {
+      const prefix = digitsOnly(prefixInput?.value || "");
+      if (prefix && !/^\d{1,3}$/.test(prefix)) {
+        return "Country code can have up to 3 digits.";
+      }
+
+      const number = digitsOnly(phoneInput?.value || "");
+      if (!number) return "Please fill in Phone number.";
+
+      const code = normalizedPrefix();
+      if (code === "91") {
+        if (!/^[6-9]\d{9}$/.test(number)) {
+          return "For +91, enter a valid 10-digit mobile number.";
+        }
+        return "";
+      }
+
+      if (!/^\d{6,12}$/.test(number)) {
+        return "Please enter a valid phone number (6–12 digits).";
+      }
+      return "";
     };
 
     const fieldError = (field) => {
+      if (field === phoneInput) return phoneError();
+
       const label = field.dataset.requiredLabel || field.name;
       const value = field.value.trim();
 
@@ -168,12 +197,6 @@
       if (field.type === "email" || field.name === "email") {
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
           return "Please enter a valid email address.";
-        }
-      }
-
-      if (field.name === "phone") {
-        if (!isValidPhone(value)) {
-          return "Please enter a valid 10-digit Indian mobile number.";
         }
       }
 
@@ -195,10 +218,23 @@
       return "";
     };
 
+    const setPhoneGroupInvalid = (invalid) => {
+      phoneGroup?.classList.toggle("is-invalid", invalid);
+      if (phoneInput) {
+        if (invalid) markFieldError(phoneInput);
+        else clearFieldError(phoneInput);
+      }
+      if (prefixInput) {
+        if (invalid) markFieldError(prefixInput);
+        else clearFieldError(prefixInput);
+      }
+    };
+
     const validateForm = () => {
       const errors = [];
 
       requiredFields.forEach((field) => {
+        if (field === phoneInput) return;
         clearFieldError(field);
         const error = fieldError(field);
         if (error) {
@@ -206,6 +242,12 @@
           errors.push({ field, error });
         }
       });
+
+      const phoneIssue = phoneError();
+      setPhoneGroupInvalid(Boolean(phoneIssue));
+      if (phoneIssue) {
+        errors.push({ field: phoneInput, error: phoneIssue });
+      }
 
       if (
         arrivalInput?.value &&
@@ -224,6 +266,16 @@
       return errors;
     };
 
+    const restrictPrefixInput = () => {
+      if (!prefixInput) return;
+      prefixInput.value = digitsOnly(prefixInput.value).slice(0, 3);
+    };
+
+    const restrictPhoneInput = () => {
+      if (!phoneInput) return;
+      phoneInput.value = digitsOnly(phoneInput.value).slice(0, 12);
+    };
+
     const syncDepartureMin = () => {
       if (!arrivalInput || !departureInput || !arrivalInput.value) return;
       const nextDay = new Date(`${arrivalInput.value}T00:00:00`);
@@ -240,7 +292,17 @@
 
     arrivalInput?.addEventListener("change", syncDepartureMin);
 
+    prefixInput?.addEventListener("input", () => {
+      restrictPrefixInput();
+      setPhoneGroupInvalid(Boolean(phoneError()));
+    });
+    phoneInput?.addEventListener("input", () => {
+      restrictPhoneInput();
+      setPhoneGroupInvalid(Boolean(phoneError()));
+    });
+
     requiredFields.forEach((field) => {
+      if (field === phoneInput) return;
       const recheck = () => {
         const error = fieldError(field);
         if (error) markFieldError(field);
@@ -255,10 +317,13 @@
     enquireForm.addEventListener("submit", async (event) => {
       event.preventDefault();
 
+      restrictPrefixInput();
+      restrictPhoneInput();
+
       const errors = validateForm();
       if (errors.length) {
         setFormStatus(errors[0].error, "is-error");
-        errors[0].field.focus();
+        errors[0].field?.focus();
         return;
       }
 
@@ -267,6 +332,12 @@
 
       const formData = new FormData(enquireForm);
       const payload = Object.fromEntries(formData.entries());
+      const prefix = normalizedPrefix();
+      const number = digitsOnly(phoneInput.value);
+      payload.phone_prefix = prefix;
+      payload.phone = number;
+      payload.phone_full = `+${prefix}${number}`;
+      payload.whatsapp_available = whatsappInput?.checked ? "Yes" : "No";
       payload.trip_dates = `${payload.arrival_date} to ${payload.departure_date}`;
 
       try {
@@ -285,9 +356,11 @@
         }
 
         enquireForm.reset();
+        if (prefixInput) prefixInput.value = "91";
         if (arrivalInput) arrivalInput.min = todayIso();
         if (departureInput) departureInput.min = todayIso();
         requiredFields.forEach(clearFieldError);
+        setPhoneGroupInvalid(false);
         setFormStatus("Thanks — your enquiry was sent. We will reply by email soon.", "is-success");
       } catch (error) {
         console.error(error);
